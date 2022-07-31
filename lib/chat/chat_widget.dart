@@ -95,7 +95,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            currentUserPhoto,
+                            valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                            ),
                           ),
                         ),
                       ),
@@ -131,7 +134,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    widget.picture!,
+                    valueOrDefault<String>(
+                      widget.picture,
+                      'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                    ),
                     width: double.infinity,
                     height: 150,
                     fit: BoxFit.cover,

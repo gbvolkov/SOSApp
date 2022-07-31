@@ -1,4 +1,5 @@
 import '../auth/auth_util.dart';
+import '../chat/chat_widget.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -126,7 +127,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            currentUserPhoto,
+                            valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                            ),
                           ),
                         ),
                       ),
@@ -179,7 +183,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       child: custom_widgets.CountdownWidget(
                         width: 200,
                         height: 200,
-                        duration: 120,
+                        duration: 10,
                         initialDuration: 0,
                         ringColor: FlutterFlowTheme.of(context).secondaryColor,
                         fillColor:
@@ -190,11 +194,23 @@ class _HomeWidgetState extends State<HomeWidget> {
                         textColor: FlutterFlowTheme.of(context).secondaryText,
                         textFontSize: 20.0,
                         textFormat: 's',
+                        isTimerTextShown: false,
                         isReverse: false,
                         isReverseAnimation: true,
                         autoStart: true,
                         label: 'S.O.S.',
-                        onComplete: () async {},
+                        activeTimerEvents: ['onTap', 'onComplete'],
+                        onComplete: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatWidget(
+                                messageText: textController!.text,
+                                picture: uploadedFileUrl,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -216,7 +232,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             Expanded(
                               child: TextFormField(
                                 controller: textController,
-                                autofocus: true,
+                                autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText: 'Add a message',
