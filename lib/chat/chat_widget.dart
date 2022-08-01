@@ -1,4 +1,5 @@
 import '../auth/auth_util.dart';
+import '../components/mood_slider_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -142,6 +143,43 @@ class _ChatWidgetState extends State<ChatWidget> {
                     height: 150,
                     fit: BoxFit.cover,
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Text(
+                            FFAppState().sliderValue.toString(),
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(context).bodyText1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 30, 0),
+                      child: MoodSliderWidget(
+                        width: 50.0,
+                        height: 300.0,
+                        activeColor: FlutterFlowTheme.of(context).alternate,
+                        inactiveColor:
+                            FlutterFlowTheme.of(context).secondaryText,
+                        onChange: () async {},
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

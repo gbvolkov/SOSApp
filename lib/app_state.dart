@@ -20,9 +20,22 @@ class FFAppState {
 
   bool agreeCheck = false;
 
-  bool isTimerComplete = false;
+  List<String> homeTimeEvents = ['onComplete', 'onTap'];
 
-  int initialDuration = 110;
+  int sliderValue = 5;
+
+  List<double> sliderGradientStops = [0, 0.3, 0.5, 0.7, 0.8, 1];
+
+  List<int> sliderColors = [
+    4281199971,
+    4288667470,
+    4294244426,
+    4294361924,
+    4294541630,
+    4294720046
+  ];
+
+  List<double> sliderStops = [0.7, 1];
 }
 
 LatLng? _latLngFromString(String? val) {

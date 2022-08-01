@@ -1,6 +1,6 @@
 import '../auth/auth_util.dart';
-import '../chat/chat_widget.dart';
 import '../backend/firebase_storage/storage.dart';
+import '../chat/chat_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -183,7 +183,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       child: custom_widgets.CountdownWidget(
                         width: 200,
                         height: 200,
-                        duration: 10,
+                        duration: 30,
                         initialDuration: 0,
                         ringColor: FlutterFlowTheme.of(context).secondaryColor,
                         fillColor:
@@ -194,12 +194,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                         textColor: FlutterFlowTheme.of(context).secondaryText,
                         textFontSize: 20.0,
                         textFormat: 's',
-                        isTimerTextShown: false,
                         isReverse: false,
                         isReverseAnimation: true,
+                        isTimerTextShown: true,
                         autoStart: true,
                         label: 'S.O.S.',
-                        activeTimerEvents: ['onTap', 'onComplete'],
+                        activeTimerEvents: ['onTap'].toList(),
                         onComplete: () async {
                           await Navigator.push(
                             context,
@@ -232,7 +232,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                             Expanded(
                               child: TextFormField(
                                 controller: textController,
-                                autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText: 'Add a message',
