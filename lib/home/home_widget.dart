@@ -17,7 +17,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  String _currentPageLink = '';
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -461,9 +460,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 size: 20,
                               ),
                               onPressed: () async {
-                                _currentPageLink =
-                                    await generateCurrentPageLink(context);
-                                await Share.share(_currentPageLink);
+                                await Share.share(
+                                    'sosapp://sosapp${GoRouter.of(context).location}');
                               },
                             ),
                           ],
