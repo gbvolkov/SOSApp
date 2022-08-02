@@ -22,7 +22,7 @@ class FFAppState {
 
   List<String> homeTimeEvents = ['onComplete', 'onTap'];
 
-  int sliderValue = 5;
+  int sliderValue = 4;
 
   List<double> sliderGradientStops = [0, 0.3, 0.5, 0.7, 0.8, 1];
 

@@ -25,6 +25,12 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   @BuiltValueField(wireName: 'phone_number')
   String? get phoneNumber;
 
+  String? get about;
+
+  bool? get isNotiffAccepted;
+
+  BuiltList<DocumentReference>? get groupMembers;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -34,7 +40,10 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..displayName = ''
     ..photoUrl = ''
     ..uid = ''
-    ..phoneNumber = '';
+    ..phoneNumber = ''
+    ..about = ''
+    ..isNotiffAccepted = false
+    ..groupMembers = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Users');
@@ -64,6 +73,8 @@ Map<String, dynamic> createUsersRecordData({
   String? uid,
   DateTime? createdTime,
   String? phoneNumber,
+  String? about,
+  bool? isNotiffAccepted,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -74,7 +85,10 @@ Map<String, dynamic> createUsersRecordData({
         ..photoUrl = photoUrl
         ..uid = uid
         ..createdTime = createdTime
-        ..phoneNumber = phoneNumber,
+        ..phoneNumber = phoneNumber
+        ..about = about
+        ..isNotiffAccepted = isNotiffAccepted
+        ..groupMembers = null,
     ),
   );
 

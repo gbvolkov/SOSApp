@@ -2,9 +2,6 @@ import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../forgot_password/forgot_password_widget.dart';
-import '../home/home_widget.dart';
-import '../sign_up/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -220,6 +217,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 180, 0, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
+                                GoRouter.of(context).prepareAuthEvent();
+
                                 final user = await signInWithEmail(
                                   context,
                                   emailAddressLoginController!.text,
@@ -229,13 +228,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   return;
                                 }
 
-                                await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeWidget(),
-                                  ),
-                                  (r) => false,
-                                );
+                                context.goNamedAuth('SOS', mounted);
                               },
                               text: 'Login',
                               options: FFButtonOptions(
@@ -265,12 +258,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignUpWidget(),
-                                  ),
-                                );
+                                context.pushNamed('SignUp');
                               },
                               text: 'Not registered yet?',
                               options: FFButtonOptions(
@@ -298,13 +286,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ForgotPasswordWidget(),
-                                  ),
-                                );
+                                context.pushNamed('ForgotPassword');
                               },
                               text: 'Forgot Password?',
                               options: FFButtonOptions(

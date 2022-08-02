@@ -61,6 +61,30 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.about;
+    if (value != null) {
+      result
+        ..add('about')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.isNotiffAccepted;
+    if (value != null) {
+      result
+        ..add('isNotiffAccepted')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.groupMembers;
+    if (value != null) {
+      result
+        ..add('groupMembers')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList, const [
+              const FullType(
+                  DocumentReference, const [const FullType.nullable(Object)])
+            ])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -107,6 +131,21 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.phoneNumber = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'about':
+          result.about = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'isNotiffAccepted':
+          result.isNotiffAccepted = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'groupMembers':
+          result.groupMembers.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(
+                    DocumentReference, const [const FullType.nullable(Object)])
+              ]))! as BuiltList<Object?>);
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -134,6 +173,12 @@ class _$UsersRecord extends UsersRecord {
   @override
   final String? phoneNumber;
   @override
+  final String? about;
+  @override
+  final bool? isNotiffAccepted;
+  @override
+  final BuiltList<DocumentReference<Object?>>? groupMembers;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -146,6 +191,9 @@ class _$UsersRecord extends UsersRecord {
       this.uid,
       this.createdTime,
       this.phoneNumber,
+      this.about,
+      this.isNotiffAccepted,
+      this.groupMembers,
       this.ffRef})
       : super._();
 
@@ -166,6 +214,9 @@ class _$UsersRecord extends UsersRecord {
         uid == other.uid &&
         createdTime == other.createdTime &&
         phoneNumber == other.phoneNumber &&
+        about == other.about &&
+        isNotiffAccepted == other.isNotiffAccepted &&
+        groupMembers == other.groupMembers &&
         ffRef == other.ffRef;
   }
 
@@ -175,11 +226,19 @@ class _$UsersRecord extends UsersRecord {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, email.hashCode), displayName.hashCode),
-                        photoUrl.hashCode),
-                    uid.hashCode),
-                createdTime.hashCode),
-            phoneNumber.hashCode),
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, email.hashCode),
+                                        displayName.hashCode),
+                                    photoUrl.hashCode),
+                                uid.hashCode),
+                            createdTime.hashCode),
+                        phoneNumber.hashCode),
+                    about.hashCode),
+                isNotiffAccepted.hashCode),
+            groupMembers.hashCode),
         ffRef.hashCode));
   }
 
@@ -192,6 +251,9 @@ class _$UsersRecord extends UsersRecord {
           ..add('uid', uid)
           ..add('createdTime', createdTime)
           ..add('phoneNumber', phoneNumber)
+          ..add('about', about)
+          ..add('isNotiffAccepted', isNotiffAccepted)
+          ..add('groupMembers', groupMembers)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -224,6 +286,21 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   String? get phoneNumber => _$this._phoneNumber;
   set phoneNumber(String? phoneNumber) => _$this._phoneNumber = phoneNumber;
 
+  String? _about;
+  String? get about => _$this._about;
+  set about(String? about) => _$this._about = about;
+
+  bool? _isNotiffAccepted;
+  bool? get isNotiffAccepted => _$this._isNotiffAccepted;
+  set isNotiffAccepted(bool? isNotiffAccepted) =>
+      _$this._isNotiffAccepted = isNotiffAccepted;
+
+  ListBuilder<DocumentReference<Object?>>? _groupMembers;
+  ListBuilder<DocumentReference<Object?>> get groupMembers =>
+      _$this._groupMembers ??= new ListBuilder<DocumentReference<Object?>>();
+  set groupMembers(ListBuilder<DocumentReference<Object?>>? groupMembers) =>
+      _$this._groupMembers = groupMembers;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -241,6 +318,9 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _uid = $v.uid;
       _createdTime = $v.createdTime;
       _phoneNumber = $v.phoneNumber;
+      _about = $v.about;
+      _isNotiffAccepted = $v.isNotiffAccepted;
+      _groupMembers = $v.groupMembers?.toBuilder();
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -262,15 +342,31 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   UsersRecord build() => _build();
 
   _$UsersRecord _build() {
-    final _$result = _$v ??
-        new _$UsersRecord._(
-            email: email,
-            displayName: displayName,
-            photoUrl: photoUrl,
-            uid: uid,
-            createdTime: createdTime,
-            phoneNumber: phoneNumber,
-            ffRef: ffRef);
+    _$UsersRecord _$result;
+    try {
+      _$result = _$v ??
+          new _$UsersRecord._(
+              email: email,
+              displayName: displayName,
+              photoUrl: photoUrl,
+              uid: uid,
+              createdTime: createdTime,
+              phoneNumber: phoneNumber,
+              about: about,
+              isNotiffAccepted: isNotiffAccepted,
+              groupMembers: _groupMembers?.build(),
+              ffRef: ffRef);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'groupMembers';
+        _groupMembers?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'UsersRecord', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

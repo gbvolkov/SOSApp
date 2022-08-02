@@ -1,13 +1,13 @@
 import '../auth/auth_util.dart';
-import '../backend/firebase_storage/storage.dart';
-import '../chat/chat_widget.dart';
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/upload_media.dart';
 import '../custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -17,15 +17,8 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  String uploadedFileUrl = '';
-  TextEditingController? textController;
+  String _currentPageLink = '';
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    textController = TextEditingController(text: 'S.O.S.');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +26,16 @@ class _HomeWidgetState extends State<HomeWidget> {
       key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-        automaticallyImplyLeading: true,
-        leading: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30,
-          borderWidth: 1,
-          buttonSize: 60,
-          icon: Icon(
-            Icons.menu,
-            color: Color(0xFF3E494A),
-            size: 30,
-          ),
-          onPressed: () {
-            print('IconButton pressed ...');
-          },
-        ),
-        title: Text(
-          'Ask for help',
-          style: FlutterFlowTheme.of(context).title2,
-        ),
-        actions: [
-          FlutterFlowIconButton(
+        automaticallyImplyLeading: false,
+        leading: Visibility(
+          visible: '1' == '2',
+          child: FlutterFlowIconButton(
             borderColor: Colors.transparent,
             borderRadius: 30,
             borderWidth: 1,
             buttonSize: 60,
             icon: Icon(
-              Icons.notifications_outlined,
+              Icons.keyboard_arrow_left,
               color: Color(0xFF3E494A),
               size: 30,
             ),
@@ -67,7 +43,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               print('IconButton pressed ...');
             },
           ),
-        ],
+        ),
+        title: Text(
+          'My Group',
+          style: FlutterFlowTheme.of(context).title2,
+        ),
+        actions: [],
         centerTitle: true,
         elevation: 0,
       ),
@@ -79,188 +60,395 @@ class _HomeWidgetState extends State<HomeWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 child: Container(
                   width: double.infinity,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                  height: 120,
+                  constraints: BoxConstraints(
+                    maxHeight: 120,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Hello,',
-                              style: FlutterFlowTheme.of(context)
-                                  .subtitle1
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    fontSize: 14,
+                  decoration: BoxDecoration(),
+                  child: StreamBuilder<List<MessagesRecord>>(
+                    stream: queryMessagesRecord(
+                      queryBuilder: (messagesRecord) => messagesRecord
+                          .where('recipients',
+                              arrayContains: currentUserReference)
+                          .where('status', isEqualTo: 0)
+                          .orderBy('created'),
+                    ),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                            ),
+                          ),
+                        );
+                      }
+                      List<MessagesRecord> listViewMessagesRecordList =
+                          snapshot.data!;
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        primary: false,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: listViewMessagesRecordList.length,
+                        itemBuilder: (context, listViewIndex) {
+                          final listViewMessagesRecord =
+                              listViewMessagesRecordList[listViewIndex];
+                          return Container(
+                            width: double.infinity,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 120,
+                                  child: custom_widgets.MoodContainerWidget(
+                                    width: double.infinity,
+                                    height: 120,
+                                    moodIndex: listViewMessagesRecord.moodIdx,
+                                    moodColors:
+                                        FFAppState().sliderColors.toList(),
+                                    borderRadius: 16.0,
                                   ),
-                            ),
-                            AuthUserStreamWidget(
-                              child: Text(
-                                currentUserDisplayName,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText2
-                                    .override(
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 4, 0, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    20, 0, 0, 0),
+                                            child: FaIcon(
+                                              FontAwesomeIcons.clock,
+                                              color: Color(0x7F000000),
+                                              size: 20,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(10, 0, 0, 0),
+                                              child: Text(
+                                                dateTimeFormat(
+                                                    'relative',
+                                                    listViewMessagesRecord
+                                                        .created!),
+                                                textAlign: TextAlign.start,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText2,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                              ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 8, 0, 0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 0, 0, 0),
+                                              child: StreamBuilder<UsersRecord>(
+                                                stream: UsersRecord.getDocument(
+                                                    listViewMessagesRecord
+                                                        .sender!),
+                                                builder: (context, snapshot) {
+                                                  // Customize what your widget looks like when it's loading.
+                                                  if (!snapshot.hasData) {
+                                                    return Center(
+                                                      child: SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                  final circleImageUsersRecord =
+                                                      snapshot.data!;
+                                                  return Container(
+                                                    width: 60,
+                                                    height: 60,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.network(
+                                                      valueOrDefault<String>(
+                                                        circleImageUsersRecord
+                                                            .photoUrl,
+                                                        'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 80,
+                                                decoration: BoxDecoration(),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              -1, 1),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(20, 0,
+                                                                    0, 8),
+                                                        child: StreamBuilder<
+                                                            UsersRecord>(
+                                                          stream: UsersRecord
+                                                              .getDocument(
+                                                                  listViewMessagesRecord
+                                                                      .sender!),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            final textUsersRecord =
+                                                                snapshot.data!;
+                                                            return Text(
+                                                              textUsersRecord
+                                                                  .displayName!,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle1,
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        20,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                            child: Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: 40,
+                                                              child: custom_widgets
+                                                                  .MarkdownWidget(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: 40,
+                                                                mdText: listViewMessagesRecord
+                                                                    .messageBody!,
+                                                                txtColor: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                linkColor: Color(
+                                                                    0xFF0066FA),
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        FlutterFlowIconButton(
+                                                          borderColor: Colors
+                                                              .transparent,
+                                                          borderRadius: 30,
+                                                          borderWidth: 1,
+                                                          buttonSize: 40,
+                                                          icon: Icon(
+                                                            Icons.double_arrow,
+                                                            color: Color(
+                                                                0x7F000000),
+                                                            size: 20,
+                                                          ),
+                                                          onPressed: () {
+                                                            print(
+                                                                'IconButton pressed ...');
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      AuthUserStreamWidget(
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.network(
-                            valueOrDefault<String>(
-                              currentUserPhoto,
-                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(-1, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(30, 60, 30, 0),
-                  child: Text(
-                    'Ready to give up?',
-                    style: FlutterFlowTheme.of(context).title1,
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(30, 15, 60, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        child: custom_widgets.MarkdownWidget(
-                          width: double.infinity,
-                          height: 40,
-                          mdText:
-                              'Add a short message and press the SOS button to [**get support**]()',
-                          txtColor: Color(0xFF989898),
-                          linkColor: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 14.0,
+                padding: EdgeInsetsDirectional.fromSTEB(20, 40, 20, 0),
+                child: Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(-1, 0),
+                        child: AuthUserStreamWidget(
+                          child: Text(
+                            'My group (${(currentUserDocument?.groupMembers?.toList() ?? []).length.toString()})',
+                            style: FlutterFlowTheme.of(context).title2,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      child: custom_widgets.CountdownWidget(
-                        width: 200,
-                        height: 200,
-                        duration: 30,
-                        initialDuration: 0,
-                        ringColor: FlutterFlowTheme.of(context).secondaryColor,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
-                        backgroundColor:
-                            FlutterFlowTheme.of(context).secondaryColor,
-                        strokeWidth: 5.0,
-                        textColor: FlutterFlowTheme.of(context).secondaryText,
-                        textFontSize: 20.0,
-                        textFormat: 's',
-                        isReverse: false,
-                        isReverseAnimation: true,
-                        isTimerTextShown: true,
-                        autoStart: true,
-                        label: 'S.O.S.',
-                        activeTimerEvents: ['onTap'].toList(),
-                        onComplete: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatWidget(
-                                messageText: textController!.text,
-                                picture: uploadedFileUrl,
-                              ),
-                            ),
-                          );
-                        },
+                      AuthUserStreamWidget(
+                        child: Builder(
+                          builder: (context) {
+                            final myGroup =
+                                (currentUserDocument?.groupMembers?.toList() ??
+                                        [])
+                                    .toList();
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              primary: false,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: myGroup.length,
+                              itemBuilder: (context, myGroupIndex) {
+                                final myGroupItem = myGroup[myGroupIndex];
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 10, 0, 0),
+                                  child: StreamBuilder<UsersRecord>(
+                                    stream:
+                                        UsersRecord.getDocument(myGroupItem),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      final rowUsersRecord = snapshot.data!;
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Image.network(
+                                              valueOrDefault<String>(
+                                                rowUsersRecord.photoUrl,
+                                                'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            rowUsersRecord.displayName!,
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle1,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 60, 20, 0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                      Expanded(
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: textController,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  hintText: 'Add a message',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .bodyText2
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        fontSize: 12,
-                                      ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
+                            Text(
+                              'Invite members',
+                              style: FlutterFlowTheme.of(context)
+                                  .subtitle1
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  filled: true,
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                ),
-                                style: FlutterFlowTheme.of(context).bodyText2,
-                              ),
                             ),
                             FlutterFlowIconButton(
                               borderColor: Colors.transparent,
@@ -268,67 +456,114 @@ class _HomeWidgetState extends State<HomeWidget> {
                               borderWidth: 1,
                               buttonSize: 60,
                               icon: Icon(
-                                Icons.camera_alt_outlined,
-                                color: Color(0x80000000),
-                                size: 30,
+                                Icons.insert_link,
+                                color: Color(0x8B000000),
+                                size: 20,
                               ),
                               onPressed: () async {
-                                final selectedMedia =
-                                    await selectMediaWithSourceBottomSheet(
-                                  context: context,
-                                  maxWidth: 300.00,
-                                  maxHeight: 150.00,
-                                  imageQuality: 51,
-                                  allowPhoto: true,
-                                  allowVideo: true,
-                                  backgroundColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  textColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  pickerFontFamily: 'Inter',
-                                );
-                                if (selectedMedia != null &&
-                                    selectedMedia.every((m) =>
-                                        validateFileFormat(
-                                            m.storagePath, context))) {
-                                  showUploadMessage(
-                                    context,
-                                    'Uploading file...',
-                                    showLoading: true,
-                                  );
-                                  final downloadUrls = (await Future.wait(
-                                          selectedMedia.map((m) async =>
-                                              await uploadData(
-                                                  m.storagePath, m.bytes))))
-                                      .where((u) => u != null)
-                                      .map((u) => u!)
-                                      .toList();
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  if (downloadUrls.length ==
-                                      selectedMedia.length) {
-                                    setState(() =>
-                                        uploadedFileUrl = downloadUrls.first);
-                                    showUploadMessage(
-                                      context,
-                                      'Success!',
-                                    );
-                                  } else {
-                                    showUploadMessage(
-                                      context,
-                                      'Failed to upload media',
-                                    );
-                                    return;
-                                  }
-                                }
+                                _currentPageLink =
+                                    await generateCurrentPageLink(context);
+                                await Share.share(_currentPageLink);
                               },
                             ),
                           ],
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                child: StreamBuilder<List<UsersRecord>>(
+                  stream: queryUsersRecord(
+                    queryBuilder: (usersRecord) => usersRecord.where(
+                        'groupMembers',
+                        arrayContains: currentUserReference),
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.of(context).primaryColor,
+                          ),
+                        ),
+                      );
+                    }
+                    List<UsersRecord> containerUsersRecordList = snapshot.data!
+                        .where((u) => u.uid != currentUserUid)
+                        .toList();
+                    return Container(
+                      width: double.infinity,
+                      height: 100,
+                      decoration: BoxDecoration(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(-1, 0),
+                            child: Text(
+                              'My friends (${containerUsersRecordList.length.toString()})',
+                              style: FlutterFlowTheme.of(context).title2,
+                            ),
+                          ),
+                          Builder(
+                            builder: (context) {
+                              final myFriends =
+                                  containerUsersRecordList.toList();
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                primary: false,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: myFriends.length,
+                                itemBuilder: (context, myFriendsIndex) {
+                                  final myFriendsItem =
+                                      myFriends[myFriendsIndex];
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 10, 0, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 20,
+                                          height: 20,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              myFriendsItem.photoUrl,
+                                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          myFriendsItem.displayName!,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle1,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

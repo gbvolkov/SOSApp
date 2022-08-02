@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 import 'package:circular_countdown_timer/circular_countdown_timer.dart'
     as countdown;
-//import 'package:duration/duration.dart';
 
 class CountdownWidget extends StatefulWidget {
   const CountdownWidget({
@@ -89,11 +88,13 @@ _defaultFormat(Duration duration) {
 
 class _CountdownWidgetState extends State<CountdownWidget> {
   countdown.CountDownController? _controller;
+  bool isStarted = false;
 
   @override
   void initState() {
     super.initState();
     _controller = countdown.CountDownController();
+    isStarted = false;
   }
 
   @override
@@ -101,12 +102,14 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     TextStyle txtStyle =
         TextStyle(color: widget.textColor, fontSize: widget.textFontSize);
     //controller.start();
+    if (isStarted) _controller?.restart();
     return GestureDetector(
         onTap: (widget.activeTimerEvents?.contains('onTap') ?? true)
             ? () async {
                 await widget.onComplete();
                 setState(() {
-                  _controller?.restart();
+                  isStarted = true;
+                  //_controller?.restart();
                 });
               }
             : null,
@@ -131,30 +134,31 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 autoStart: widget.autoStart ?? true,
                 controller: _controller,
                 // This Callback will execute when the Countdown Ends.
-                onComplete:
-                    (widget.activeTimerEvents?.contains('onComplete') ?? true)
-                        ? () async {
-                            String? tsString = _controller?.getTime();
-                            String? zeroTime = _getTime(
-                                (widget.isReverse ?? false)
-                                    ? Duration(
-                                        days: 0,
-                                        hours: 0,
-                                        minutes: 0,
-                                        seconds: 0,
-                                        milliseconds: 0,
-                                        microseconds: 0)
-                                    : Duration(seconds: widget.duration ?? 10),
-                                widget.textFormat);
-                            if (tsString! == zeroTime) {
-                              //debugPrint();
-                              await widget.onComplete();
-                              setState(() {
-                                _controller?.restart();
-                              });
-                            }
-                          }
-                        : null,
+                onComplete: () async {
+                  String? tsString = _controller?.getTime();
+                  String? zeroTime = _getTime(
+                      (widget.isReverse ?? false)
+                          ? Duration(
+                              days: 0,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                              milliseconds: 0,
+                              microseconds: 0)
+                          : Duration(seconds: widget.duration ?? 10),
+                      widget.textFormat);
+                  if (tsString! == zeroTime) {
+                    //debugPrint();
+                    if (widget.activeTimerEvents?.contains('onComplete') ??
+                        true) {
+                      await widget.onComplete();
+                    }
+                    setState(() {
+                      isStarted = true;
+                      //_controller?.restart();
+                    });
+                  }
+                },
                 //onChange: (String ts) async {},
               ),
               (widget.label?.isNotEmpty ?? false)

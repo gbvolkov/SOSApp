@@ -55,7 +55,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           size: 24,
                         ),
                         onPressed: () async {
-                          Navigator.pop(context);
+                          context.pop();
                         },
                       ),
                     ),
