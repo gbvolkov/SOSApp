@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../components/all_is_o_k_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -89,6 +90,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                       }
                       List<ChatsRecord> listViewChatsRecordList =
                           snapshot.data!;
+                      if (listViewChatsRecordList.isEmpty) {
+                        return Center(
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: AllIsOKWidget(),
+                          ),
+                        );
+                      }
                       return ListView.builder(
                         padding: EdgeInsets.zero,
                         primary: false,
