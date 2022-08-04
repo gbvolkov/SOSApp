@@ -29,6 +29,8 @@ abstract class MessagesRecord
 
   BuiltList<DocumentReference>? get responses;
 
+  DocumentReference? get chat;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -70,6 +72,7 @@ Map<String, dynamic> createMessagesRecordData({
   int? status,
   DocumentReference? sender,
   String? image,
+  DocumentReference? chat,
 }) {
   final firestoreData = serializers.toFirestore(
     MessagesRecord.serializer,
@@ -83,7 +86,8 @@ Map<String, dynamic> createMessagesRecordData({
         ..sender = sender
         ..recipients = null
         ..image = image
-        ..responses = null,
+        ..responses = null
+        ..chat = chat,
     ),
   );
 

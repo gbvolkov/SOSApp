@@ -7,6 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/upload_media.dart';
 import '../custom_code/widgets/index.dart' as custom_widgets;
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,8 +21,8 @@ class SosWidget extends StatefulWidget {
 }
 
 class _SosWidgetState extends State<SosWidget> {
+  ChatsRecord? lastChat1;
   ChatsRecord? lastChat;
-  MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
   TextEditingController? textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -209,7 +210,54 @@ class _SosWidgetState extends State<SosWidget> {
                           label: 'S.O.S.',
                           activeTimerEvents: ['onTap'].toList(),
                           onComplete: () async {
-                            if (currentUserDocument!.lastChat == null) {
+                            if (currentUserDocument!.lastChat != null) {
+                              if (functions.getChatByRef(
+                                      currentUserDocument!.lastChat!) !=
+                                  0) {
+                                final chatsCreateData = {
+                                  ...createChatsRecordData(
+                                    initiator: currentUserReference,
+                                    chatMessage: textController!.text,
+                                    chatImage: uploadedFileUrl,
+                                    chatMoodIdx: 4,
+                                    status: 0,
+                                    startedAt: getCurrentTimestamp,
+                                  ),
+                                  'participants': (currentUserDocument
+                                          ?.groupMembers
+                                          ?.toList() ??
+                                      []),
+                                };
+                                var chatsRecordReference =
+                                    ChatsRecord.collection.doc();
+                                await chatsRecordReference.set(chatsCreateData);
+                                lastChat = ChatsRecord.getDocumentFromData(
+                                    chatsCreateData, chatsRecordReference);
+
+                                final usersUpdateData = createUsersRecordData(
+                                  lastChat: lastChat!.reference,
+                                );
+                                await currentUserReference!
+                                    .update(usersUpdateData);
+                                setState(() => FFAppState().lastChat =
+                                    currentUserDocument!.lastChat);
+                                triggerPushNotification(
+                                  notificationTitle: 'S.O.S.',
+                                  notificationText: textController!.text,
+                                  notificationImageUrl: uploadedFileUrl,
+                                  notificationSound: 'default',
+                                  userRefs: (currentUserDocument?.groupMembers
+                                              ?.toList() ??
+                                          [])
+                                      .toList(),
+                                  initialPageName: 'Home',
+                                  parameterData: {},
+                                );
+                              } else {
+                                setState(() => FFAppState().lastChat =
+                                    currentUserDocument!.lastChat);
+                              }
+                            } else {
                               final chatsCreateData = {
                                 ...createChatsRecordData(
                                   initiator: currentUserReference,
@@ -227,38 +275,16 @@ class _SosWidgetState extends State<SosWidget> {
                               var chatsRecordReference =
                                   ChatsRecord.collection.doc();
                               await chatsRecordReference.set(chatsCreateData);
-                              lastChat = ChatsRecord.getDocumentFromData(
+                              lastChat1 = ChatsRecord.getDocumentFromData(
                                   chatsCreateData, chatsRecordReference);
 
                               final usersUpdateData = createUsersRecordData(
-                                lastChat: lastChat!.reference,
+                                lastChat: lastChat1!.reference,
                               );
                               await currentUserReference!
                                   .update(usersUpdateData);
                               setState(() => FFAppState().lastChat =
                                   currentUserDocument!.lastChat);
-
-                              final messagesCreateData = {
-                                ...createMessagesRecordData(
-                                  messageBody: textController!.text,
-                                  created: getCurrentTimestamp,
-                                  moodIdx: 4,
-                                  image: uploadedFileUrl,
-                                  sender: currentUserReference,
-                                  status: 0,
-                                ),
-                                'recipients': (currentUserDocument?.groupMembers
-                                        ?.toList() ??
-                                    []),
-                              };
-                              var messagesRecordReference =
-                                  MessagesRecord.collection.doc();
-                              await messagesRecordReference
-                                  .set(messagesCreateData);
-                              lastMessage = MessagesRecord.getDocumentFromData(
-                                  messagesCreateData, messagesRecordReference);
-                              setState(() => FFAppState().myLastMessage =
-                                  lastMessage!.reference);
                               triggerPushNotification(
                                 notificationTitle: 'S.O.S.',
                                 notificationText: textController!.text,
@@ -271,9 +297,6 @@ class _SosWidgetState extends State<SosWidget> {
                                 initialPageName: 'Home',
                                 parameterData: {},
                               );
-                            } else {
-                              setState(() => FFAppState().lastChat =
-                                  currentUserDocument!.lastChat);
                             }
 
                             context.pushNamed('Chat');

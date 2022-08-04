@@ -89,6 +89,14 @@ class _$MessagesRecordSerializer
                   DocumentReference, const [const FullType.nullable(Object)])
             ])));
     }
+    value = object.chat;
+    if (value != null) {
+      result
+        ..add('chat')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -156,6 +164,12 @@ class _$MessagesRecordSerializer
                     DocumentReference, const [const FullType.nullable(Object)])
               ]))! as BuiltList<Object?>);
           break;
+        case 'chat':
+          result.chat = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -189,6 +203,8 @@ class _$MessagesRecord extends MessagesRecord {
   @override
   final BuiltList<DocumentReference<Object?>>? responses;
   @override
+  final DocumentReference<Object?>? chat;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$MessagesRecord([void Function(MessagesRecordBuilder)? updates]) =>
@@ -204,6 +220,7 @@ class _$MessagesRecord extends MessagesRecord {
       this.recipients,
       this.image,
       this.responses,
+      this.chat,
       this.ffRef})
       : super._();
 
@@ -228,6 +245,7 @@ class _$MessagesRecord extends MessagesRecord {
         recipients == other.recipients &&
         image == other.image &&
         responses == other.responses &&
+        chat == other.chat &&
         ffRef == other.ffRef;
   }
 
@@ -241,15 +259,17 @@ class _$MessagesRecord extends MessagesRecord {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, messageBody.hashCode),
-                                        created.hashCode),
-                                    moodIdx.hashCode),
-                                updated.hashCode),
-                            status.hashCode),
-                        sender.hashCode),
-                    recipients.hashCode),
-                image.hashCode),
-            responses.hashCode),
+                                    $jc(
+                                        $jc($jc(0, messageBody.hashCode),
+                                            created.hashCode),
+                                        moodIdx.hashCode),
+                                    updated.hashCode),
+                                status.hashCode),
+                            sender.hashCode),
+                        recipients.hashCode),
+                    image.hashCode),
+                responses.hashCode),
+            chat.hashCode),
         ffRef.hashCode));
   }
 
@@ -265,6 +285,7 @@ class _$MessagesRecord extends MessagesRecord {
           ..add('recipients', recipients)
           ..add('image', image)
           ..add('responses', responses)
+          ..add('chat', chat)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -314,6 +335,10 @@ class MessagesRecordBuilder
   set responses(ListBuilder<DocumentReference<Object?>>? responses) =>
       _$this._responses = responses;
 
+  DocumentReference<Object?>? _chat;
+  DocumentReference<Object?>? get chat => _$this._chat;
+  set chat(DocumentReference<Object?>? chat) => _$this._chat = chat;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -334,6 +359,7 @@ class MessagesRecordBuilder
       _recipients = $v.recipients?.toBuilder();
       _image = $v.image;
       _responses = $v.responses?.toBuilder();
+      _chat = $v.chat;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -368,6 +394,7 @@ class MessagesRecordBuilder
               recipients: _recipients?.build(),
               image: image,
               responses: _responses?.build(),
+              chat: chat,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
