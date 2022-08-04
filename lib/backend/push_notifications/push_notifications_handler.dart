@@ -82,10 +82,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'Login': (data) async => LoginWidget(),
   'ForgotPassword': (data) async => ForgotPasswordWidget(),
   'SignUp': (data) async => SignUpWidget(),
-  'Chat': (data) async => ChatWidget(
-        messageText: getParameter(data, 'messageText'),
-        picture: getParameter(data, 'picture'),
-      ),
+  'Chat': (data) async => ChatWidget(),
   'Profile': (data) async => NavBarPage(initialPage: 'Profile'),
   'Home': (data) async => NavBarPage(initialPage: 'Home'),
   'AcceptInvitation': (data) async => AcceptInvitationWidget(

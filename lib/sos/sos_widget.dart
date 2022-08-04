@@ -230,6 +230,7 @@ class _SosWidgetState extends State<SosWidget> {
                                 onComplete: () async {
                                   if (currentUserDocument!.lastChat != null) {
                                     if (columnChatsRecord.status == 0) {
+                                      context.pushNamed('Chat');
                                       if (_shouldSetState) setState(() {});
                                       return;
                                     }
