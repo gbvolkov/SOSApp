@@ -86,7 +86,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (FFAppState().sliderValue == 4) {
+          if (FFAppState().sliderValue == 0) {
             final chatsUpdateData = createChatsRecordData(
               status: 1,
             );
@@ -939,7 +939,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                'The chat is complete! Thank you!',
+                                                'The chat is complete.',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .subtitle2,
@@ -953,14 +953,13 @@ class _ChatWidgetState extends State<ChatWidget> {
                                                 label: 'S.O.S.',
                                                 textColor:
                                                     FlutterFlowTheme.of(context)
-                                                        .tertiaryColor,
+                                                        .secondaryColor,
                                                 onPressed: () async {
                                                   context.goNamed('SOS');
                                                 },
                                               ),
                                             ),
                                           );
-                                          context.pushNamed('Home');
                                         }
 
                                         setState(() {});
