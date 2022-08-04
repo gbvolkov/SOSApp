@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/lat_lng.dart';
 
 class FFAppState {
@@ -17,7 +15,6 @@ class FFAppState {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _invitationLink = prefs.getString('ff_invitationLink') ?? _invitationLink;
-    _lastChat = prefs.getString('ff_lastChat')?.ref ?? _lastChat;
   }
 
   late SharedPreferences prefs;
@@ -47,16 +44,6 @@ class FFAppState {
   set invitationLink(String _value) {
     _invitationLink = _value;
     prefs.setString('ff_invitationLink', _value);
-  }
-
-  DocumentReference? _lastChat;
-  DocumentReference? get lastChat => _lastChat;
-  set lastChat(DocumentReference? _value) {
-    if (_value == null) {
-      return;
-    }
-    _lastChat = _value;
-    prefs.setString('ff_lastChat', _value.path);
   }
 }
 
