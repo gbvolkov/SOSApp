@@ -11,7 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../auth/auth_util.dart';
 
 int getChatByRef(DocumentReference docRef) {
-  docRef?.get().then((DocumentSnapshot documentSnapshot) {
+  docRef.get().then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       return documentSnapshot.get('status');
     }
