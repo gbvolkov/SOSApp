@@ -9,6 +9,7 @@ import '../flutter_flow/upload_media.dart';
 import '../custom_code/widgets/index.dart' as custom_widgets;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,15 +21,38 @@ class SosWidget extends StatefulWidget {
 }
 
 class _SosWidgetState extends State<SosWidget> {
+  ChatsRecord? dumpchat;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   ChatsRecord? lastChat1;
   ChatsRecord? lastChat;
   String uploadedFileUrl = '';
   TextEditingController? textController;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (currentUserDocument!.lastChat == null) {
+        final chatsCreateData = {
+          ...createChatsRecordData(
+            initiator: currentUserReference,
+            status: -100,
+          ),
+          'participants': (currentUserDocument?.groupMembers?.toList() ?? []),
+        };
+        var chatsRecordReference = ChatsRecord.collection.doc();
+        await chatsRecordReference.set(chatsCreateData);
+        dumpchat = ChatsRecord.getDocumentFromData(
+            chatsCreateData, chatsRecordReference);
+
+        final usersUpdateData = createUsersRecordData(
+          lastChat: dumpchat!.reference,
+        );
+        await currentUserReference!.update(usersUpdateData);
+      }
+    });
+
     textController = TextEditingController(text: 'S.O.S.');
   }
 
