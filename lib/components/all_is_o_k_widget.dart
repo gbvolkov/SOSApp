@@ -20,6 +20,12 @@ class _AllIsOKWidgetState extends State<AllIsOKWidget> {
       height: double.infinity,
       decoration: BoxDecoration(
         color: Color(0x922DED63),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(0),
+          bottomRight: Radius.circular(24),
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(0),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
