@@ -7,7 +7,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/upload_media.dart';
 import '../custom_code/widgets/index.dart' as custom_widgets;
-import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -179,248 +178,287 @@ class _SosWidgetState extends State<SosWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        child: custom_widgets.CountdownWidget(
-                          width: 200,
-                          height: 200,
-                          duration: 30,
-                          initialDuration: 0,
-                          ringColor:
-                              FlutterFlowTheme.of(context).secondaryColor,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).secondaryColor,
-                          strokeWidth: 5.0,
-                          textColor: FlutterFlowTheme.of(context).secondaryText,
-                          textFontSize: 20.0,
-                          textFormat: 's',
-                          isReverse: false,
-                          isReverseAnimation: true,
-                          isTimerTextShown: true,
-                          autoStart: true,
-                          label: 'S.O.S.',
-                          activeTimerEvents: ['onTap'].toList(),
-                          onComplete: () async {
-                            if (currentUserDocument!.lastChat != null) {
-                              if (functions.getChatByRef(
-                                      currentUserDocument!.lastChat!) !=
-                                  0) {
-                                final chatsCreateData = {
-                                  ...createChatsRecordData(
-                                    initiator: currentUserReference,
-                                    chatMessage: textController!.text,
-                                    chatImage: uploadedFileUrl,
-                                    chatMoodIdx: 4,
-                                    status: 0,
-                                    startedAt: getCurrentTimestamp,
-                                  ),
-                                  'participants': (currentUserDocument
-                                          ?.groupMembers
-                                          ?.toList() ??
-                                      []),
-                                };
-                                var chatsRecordReference =
-                                    ChatsRecord.collection.doc();
-                                await chatsRecordReference.set(chatsCreateData);
-                                lastChat = ChatsRecord.getDocumentFromData(
-                                    chatsCreateData, chatsRecordReference);
-
-                                final usersUpdateData = createUsersRecordData(
-                                  lastChat: lastChat!.reference,
-                                );
-                                await currentUserReference!
-                                    .update(usersUpdateData);
-                                setState(() => FFAppState().lastChat =
-                                    currentUserDocument!.lastChat);
-                                triggerPushNotification(
-                                  notificationTitle: 'S.O.S.',
-                                  notificationText: textController!.text,
-                                  notificationImageUrl: uploadedFileUrl,
-                                  notificationSound: 'default',
-                                  userRefs: (currentUserDocument?.groupMembers
-                                              ?.toList() ??
-                                          [])
-                                      .toList(),
-                                  initialPageName: 'Home',
-                                  parameterData: {},
-                                );
-                              } else {
-                                setState(() => FFAppState().lastChat =
-                                    currentUserDocument!.lastChat);
-                              }
-                            } else {
-                              final chatsCreateData = {
-                                ...createChatsRecordData(
-                                  initiator: currentUserReference,
-                                  chatMessage: textController!.text,
-                                  chatImage: uploadedFileUrl,
-                                  chatMoodIdx: 4,
-                                  status: 0,
-                                  startedAt: getCurrentTimestamp,
-                                ),
-                                'participants': (currentUserDocument
-                                        ?.groupMembers
-                                        ?.toList() ??
-                                    []),
-                              };
-                              var chatsRecordReference =
-                                  ChatsRecord.collection.doc();
-                              await chatsRecordReference.set(chatsCreateData);
-                              lastChat1 = ChatsRecord.getDocumentFromData(
-                                  chatsCreateData, chatsRecordReference);
-
-                              final usersUpdateData = createUsersRecordData(
-                                lastChat: lastChat1!.reference,
-                              );
-                              await currentUserReference!
-                                  .update(usersUpdateData);
-                              setState(() => FFAppState().lastChat =
-                                  currentUserDocument!.lastChat);
-                              triggerPushNotification(
-                                notificationTitle: 'S.O.S.',
-                                notificationText: textController!.text,
-                                notificationImageUrl: uploadedFileUrl,
-                                notificationSound: 'default',
-                                userRefs: (currentUserDocument?.groupMembers
-                                            ?.toList() ??
-                                        [])
-                                    .toList(),
-                                initialPageName: 'Home',
-                                parameterData: {},
-                              );
-                            }
-
-                            context.pushNamed('Chat');
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  controller: textController,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    hintText: 'Add a message',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .bodyText2
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          fontSize: 12,
+                child: AuthUserStreamWidget(
+                  child: StreamBuilder<ChatsRecord>(
+                    stream:
+                        ChatsRecord.getDocument(currentUserDocument!.lastChat!),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                            ),
+                          ),
+                        );
+                      }
+                      final columnChatsRecord = snapshot.data!;
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              child: custom_widgets.CountdownWidget(
+                                width: 200,
+                                height: 200,
+                                duration: 30,
+                                initialDuration: 0,
+                                ringColor:
+                                    FlutterFlowTheme.of(context).secondaryColor,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondaryColor,
+                                strokeWidth: 5.0,
+                                textColor:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                textFontSize: 20.0,
+                                textFormat: 's',
+                                isReverse: false,
+                                isReverseAnimation: true,
+                                isTimerTextShown: true,
+                                autoStart: true,
+                                label: 'S.O.S.',
+                                activeTimerEvents: ['onTap'].toList(),
+                                onComplete: () async {
+                                  if (currentUserDocument!.lastChat != null) {
+                                    if (columnChatsRecord.status != 0) {
+                                      final chatsCreateData = {
+                                        ...createChatsRecordData(
+                                          initiator: currentUserReference,
+                                          chatMessage: textController!.text,
+                                          chatImage: uploadedFileUrl,
+                                          chatMoodIdx: 4,
+                                          status: 0,
+                                          startedAt: getCurrentTimestamp,
                                         ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    filled: true,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                                  style: FlutterFlowTheme.of(context).bodyText2,
-                                ),
-                              ),
-                              FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                borderWidth: 1,
-                                buttonSize: 60,
-                                icon: Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: Color(0x80000000),
-                                  size: 30,
-                                ),
-                                onPressed: () async {
-                                  final selectedMedia =
-                                      await selectMediaWithSourceBottomSheet(
-                                    context: context,
-                                    maxWidth: 300.00,
-                                    maxHeight: 150.00,
-                                    imageQuality: 51,
-                                    allowPhoto: true,
-                                    allowVideo: true,
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                    textColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    pickerFontFamily: 'Inter',
-                                  );
-                                  if (selectedMedia != null &&
-                                      selectedMedia.every((m) =>
-                                          validateFileFormat(
-                                              m.storagePath, context))) {
-                                    showUploadMessage(
-                                      context,
-                                      'Uploading file...',
-                                      showLoading: true,
-                                    );
-                                    final downloadUrls = (await Future.wait(
-                                            selectedMedia.map((m) async =>
-                                                await uploadData(
-                                                    m.storagePath, m.bytes))))
-                                        .where((u) => u != null)
-                                        .map((u) => u!)
-                                        .toList();
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    if (downloadUrls.length ==
-                                        selectedMedia.length) {
-                                      setState(() =>
-                                          uploadedFileUrl = downloadUrls.first);
-                                      showUploadMessage(
-                                        context,
-                                        'Success!',
+                                        'participants': (currentUserDocument
+                                                ?.groupMembers
+                                                ?.toList() ??
+                                            []),
+                                      };
+                                      var chatsRecordReference =
+                                          ChatsRecord.collection.doc();
+                                      await chatsRecordReference
+                                          .set(chatsCreateData);
+                                      lastChat =
+                                          ChatsRecord.getDocumentFromData(
+                                              chatsCreateData,
+                                              chatsRecordReference);
+
+                                      final usersUpdateData =
+                                          createUsersRecordData(
+                                        lastChat: lastChat!.reference,
+                                      );
+                                      await currentUserReference!
+                                          .update(usersUpdateData);
+                                      setState(() => FFAppState().lastChat =
+                                          currentUserDocument!.lastChat);
+                                      triggerPushNotification(
+                                        notificationTitle: 'S.O.S.',
+                                        notificationText: textController!.text,
+                                        notificationImageUrl: uploadedFileUrl,
+                                        notificationSound: 'default',
+                                        userRefs: (currentUserDocument
+                                                    ?.groupMembers
+                                                    ?.toList() ??
+                                                [])
+                                            .toList(),
+                                        initialPageName: 'Home',
+                                        parameterData: {},
                                       );
                                     } else {
-                                      showUploadMessage(
-                                        context,
-                                        'Failed to upload media',
-                                      );
-                                      return;
+                                      setState(() => FFAppState().lastChat =
+                                          currentUserDocument!.lastChat);
                                     }
+                                  } else {
+                                    final chatsCreateData = {
+                                      ...createChatsRecordData(
+                                        initiator: currentUserReference,
+                                        chatMessage: textController!.text,
+                                        chatImage: uploadedFileUrl,
+                                        chatMoodIdx: 4,
+                                        status: 0,
+                                        startedAt: getCurrentTimestamp,
+                                      ),
+                                      'participants': (currentUserDocument
+                                              ?.groupMembers
+                                              ?.toList() ??
+                                          []),
+                                    };
+                                    var chatsRecordReference =
+                                        ChatsRecord.collection.doc();
+                                    await chatsRecordReference
+                                        .set(chatsCreateData);
+                                    lastChat1 = ChatsRecord.getDocumentFromData(
+                                        chatsCreateData, chatsRecordReference);
+
+                                    final usersUpdateData =
+                                        createUsersRecordData(
+                                      lastChat: lastChat1!.reference,
+                                    );
+                                    await currentUserReference!
+                                        .update(usersUpdateData);
+                                    setState(() => FFAppState().lastChat =
+                                        currentUserDocument!.lastChat);
+                                    triggerPushNotification(
+                                      notificationTitle: 'S.O.S.',
+                                      notificationText: textController!.text,
+                                      notificationImageUrl: uploadedFileUrl,
+                                      notificationSound: 'default',
+                                      userRefs: (currentUserDocument
+                                                  ?.groupMembers
+                                                  ?.toList() ??
+                                              [])
+                                          .toList(),
+                                      initialPageName: 'Home',
+                                      parameterData: {},
+                                    );
                                   }
+
+                                  context.pushNamed('Chat');
                                 },
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                            child: Container(
+                              width: double.infinity,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: textController,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          hintText: 'Add a message',
+                                          hintStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText2
+                                                  .override(
+                                                    fontFamily: 'Inter',
+                                                    fontSize: 12,
+                                                  ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryBackground,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText2,
+                                      ),
+                                    ),
+                                    FlutterFlowIconButton(
+                                      borderColor: Colors.transparent,
+                                      borderRadius: 30,
+                                      borderWidth: 1,
+                                      buttonSize: 60,
+                                      icon: Icon(
+                                        Icons.camera_alt_outlined,
+                                        color: Color(0x80000000),
+                                        size: 30,
+                                      ),
+                                      onPressed: () async {
+                                        final selectedMedia =
+                                            await selectMediaWithSourceBottomSheet(
+                                          context: context,
+                                          maxWidth: 300.00,
+                                          maxHeight: 150.00,
+                                          imageQuality: 51,
+                                          allowPhoto: true,
+                                          allowVideo: true,
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                          textColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                          pickerFontFamily: 'Inter',
+                                        );
+                                        if (selectedMedia != null &&
+                                            selectedMedia.every((m) =>
+                                                validateFileFormat(
+                                                    m.storagePath, context))) {
+                                          showUploadMessage(
+                                            context,
+                                            'Uploading file...',
+                                            showLoading: true,
+                                          );
+                                          final downloadUrls =
+                                              (await Future.wait(selectedMedia
+                                                      .map((m) async =>
+                                                          await uploadData(
+                                                              m.storagePath,
+                                                              m.bytes))))
+                                                  .where((u) => u != null)
+                                                  .map((u) => u!)
+                                                  .toList();
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          if (downloadUrls.length ==
+                                              selectedMedia.length) {
+                                            setState(() => uploadedFileUrl =
+                                                downloadUrls.first);
+                                            showUploadMessage(
+                                              context,
+                                              'Success!',
+                                            );
+                                          } else {
+                                            showUploadMessage(
+                                              context,
+                                              'Failed to upload media',
+                                            );
+                                            return;
+                                          }
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

@@ -17,7 +17,6 @@ class FFAppState {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _invitationLink = prefs.getString('ff_invitationLink') ?? _invitationLink;
-    _myLastMessage = prefs.getString('ff_myLastMessage')?.ref ?? _myLastMessage;
     _lastChat = prefs.getString('ff_lastChat')?.ref ?? _lastChat;
   }
 
@@ -48,16 +47,6 @@ class FFAppState {
   set invitationLink(String _value) {
     _invitationLink = _value;
     prefs.setString('ff_invitationLink', _value);
-  }
-
-  DocumentReference? _myLastMessage;
-  DocumentReference? get myLastMessage => _myLastMessage;
-  set myLastMessage(DocumentReference? _value) {
-    if (_value == null) {
-      return;
-    }
-    _myLastMessage = _value;
-    prefs.setString('ff_myLastMessage', _value.path);
   }
 
   DocumentReference? _lastChat;
