@@ -18,6 +18,7 @@ class FFAppState {
     prefs = await SharedPreferences.getInstance();
     _invitationLink = prefs.getString('ff_invitationLink') ?? _invitationLink;
     _myLastMessage = prefs.getString('ff_myLastMessage')?.ref ?? _myLastMessage;
+    _lastChat = prefs.getString('ff_lastChat')?.ref ?? _lastChat;
   }
 
   late SharedPreferences prefs;
@@ -57,6 +58,16 @@ class FFAppState {
     }
     _myLastMessage = _value;
     prefs.setString('ff_myLastMessage', _value.path);
+  }
+
+  DocumentReference? _lastChat;
+  DocumentReference? get lastChat => _lastChat;
+  set lastChat(DocumentReference? _value) {
+    if (_value == null) {
+      return;
+    }
+    _lastChat = _value;
+    prefs.setString('ff_lastChat', _value.path);
   }
 }
 

@@ -31,6 +31,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 
   BuiltList<DocumentReference>? get groupMembers;
 
+  DocumentReference? get lastChat;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -75,6 +77,7 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   String? about,
   bool? isNotiffAccepted,
+  DocumentReference? lastChat,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -88,7 +91,8 @@ Map<String, dynamic> createUsersRecordData({
         ..phoneNumber = phoneNumber
         ..about = about
         ..isNotiffAccepted = isNotiffAccepted
-        ..groupMembers = null,
+        ..groupMembers = null
+        ..lastChat = lastChat,
     ),
   );
 
