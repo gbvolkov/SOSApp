@@ -230,8 +230,6 @@ class _SosWidgetState extends State<SosWidget> {
                                 onComplete: () async {
                                   if (currentUserDocument!.lastChat != null) {
                                     if (columnChatsRecord.status == 0) {
-                                      setState(() => FFAppState().lastChat =
-                                          currentUserDocument!.lastChat);
                                       if (_shouldSetState) setState(() {});
                                       return;
                                     }
@@ -265,8 +263,6 @@ class _SosWidgetState extends State<SosWidget> {
                                   );
                                   await currentUserReference!
                                       .update(usersUpdateData);
-                                  setState(() => FFAppState().lastChat =
-                                      currentUserDocument!.lastChat);
                                   triggerPushNotification(
                                     notificationTitle: 'S.O.S.',
                                     notificationText: textController!.text,
