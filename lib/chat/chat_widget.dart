@@ -14,14 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ChatWidget extends StatefulWidget {
-  const ChatWidget({
-    Key? key,
-    this.messageText,
-    this.picture,
-  }) : super(key: key);
-
-  final String? messageText;
-  final String? picture;
+  const ChatWidget({Key? key}) : super(key: key);
 
   @override
   _ChatWidgetState createState() => _ChatWidgetState();
