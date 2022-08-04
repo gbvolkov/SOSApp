@@ -84,11 +84,21 @@ class _ChatWidgetState extends State<ChatWidget> {
               status: 1,
             );
             await currentUserDocument!.lastChat!.update(chatsUpdateData);
+
+            final usersUpdateData = createUsersRecordData(
+              lastChatStatus: 1,
+            );
+            await currentUserReference!.update(usersUpdateData);
           } else {
             final chatsUpdateData = createChatsRecordData(
               status: -1,
             );
             await currentUserDocument!.lastChat!.update(chatsUpdateData);
+
+            final usersUpdateData = createUsersRecordData(
+              lastChatStatus: -1,
+            );
+            await currentUserReference!.update(usersUpdateData);
           }
 
           scaffoldKey.currentState!.openEndDrawer();
