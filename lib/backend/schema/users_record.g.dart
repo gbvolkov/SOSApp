@@ -85,6 +85,14 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
                   DocumentReference, const [const FullType.nullable(Object)])
             ])));
     }
+    value = object.lastChat;
+    if (value != null) {
+      result
+        ..add('lastChat')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -146,6 +154,12 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
                     DocumentReference, const [const FullType.nullable(Object)])
               ]))! as BuiltList<Object?>);
           break;
+        case 'lastChat':
+          result.lastChat = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -179,6 +193,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final BuiltList<DocumentReference<Object?>>? groupMembers;
   @override
+  final DocumentReference<Object?>? lastChat;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -194,6 +210,7 @@ class _$UsersRecord extends UsersRecord {
       this.about,
       this.isNotiffAccepted,
       this.groupMembers,
+      this.lastChat,
       this.ffRef})
       : super._();
 
@@ -217,6 +234,7 @@ class _$UsersRecord extends UsersRecord {
         about == other.about &&
         isNotiffAccepted == other.isNotiffAccepted &&
         groupMembers == other.groupMembers &&
+        lastChat == other.lastChat &&
         ffRef == other.ffRef;
   }
 
@@ -230,15 +248,17 @@ class _$UsersRecord extends UsersRecord {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, email.hashCode),
-                                        displayName.hashCode),
-                                    photoUrl.hashCode),
-                                uid.hashCode),
-                            createdTime.hashCode),
-                        phoneNumber.hashCode),
-                    about.hashCode),
-                isNotiffAccepted.hashCode),
-            groupMembers.hashCode),
+                                    $jc(
+                                        $jc($jc(0, email.hashCode),
+                                            displayName.hashCode),
+                                        photoUrl.hashCode),
+                                    uid.hashCode),
+                                createdTime.hashCode),
+                            phoneNumber.hashCode),
+                        about.hashCode),
+                    isNotiffAccepted.hashCode),
+                groupMembers.hashCode),
+            lastChat.hashCode),
         ffRef.hashCode));
   }
 
@@ -254,6 +274,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('about', about)
           ..add('isNotiffAccepted', isNotiffAccepted)
           ..add('groupMembers', groupMembers)
+          ..add('lastChat', lastChat)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -301,6 +322,11 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   set groupMembers(ListBuilder<DocumentReference<Object?>>? groupMembers) =>
       _$this._groupMembers = groupMembers;
 
+  DocumentReference<Object?>? _lastChat;
+  DocumentReference<Object?>? get lastChat => _$this._lastChat;
+  set lastChat(DocumentReference<Object?>? lastChat) =>
+      _$this._lastChat = lastChat;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -321,6 +347,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _about = $v.about;
       _isNotiffAccepted = $v.isNotiffAccepted;
       _groupMembers = $v.groupMembers?.toBuilder();
+      _lastChat = $v.lastChat;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -355,6 +382,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               about: about,
               isNotiffAccepted: isNotiffAccepted,
               groupMembers: _groupMembers?.build(),
+              lastChat: lastChat,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

@@ -20,6 +20,7 @@ class SosWidget extends StatefulWidget {
 }
 
 class _SosWidgetState extends State<SosWidget> {
+  ChatsRecord? lastChat;
   MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
   TextEditingController? textController;
@@ -208,48 +209,74 @@ class _SosWidgetState extends State<SosWidget> {
                           label: 'S.O.S.',
                           activeTimerEvents: ['onTap'].toList(),
                           onComplete: () async {
-                            final messagesCreateData = {
-                              ...createMessagesRecordData(
-                                messageBody: textController!.text,
-                                created: getCurrentTimestamp,
-                                moodIdx: 4,
-                                image: uploadedFileUrl,
-                                sender: currentUserReference,
-                                status: 0,
-                              ),
-                              'recipients': (currentUserDocument?.groupMembers
-                                      ?.toList() ??
-                                  []),
-                            };
-                            var messagesRecordReference =
-                                MessagesRecord.collection.doc();
-                            await messagesRecordReference
-                                .set(messagesCreateData);
-                            lastMessage = MessagesRecord.getDocumentFromData(
-                                messagesCreateData, messagesRecordReference);
-                            setState(() => FFAppState().myLastMessage =
-                                lastMessage!.reference);
-                            triggerPushNotification(
-                              notificationTitle: 'S.O.S.',
-                              notificationText: textController!.text,
-                              notificationImageUrl: uploadedFileUrl,
-                              notificationSound: 'default',
-                              userRefs: (currentUserDocument?.groupMembers
-                                          ?.toList() ??
-                                      [])
-                                  .toList(),
-                              initialPageName: 'Home',
-                              parameterData: {},
-                            );
-                            context.pushNamed(
-                              'Chat',
-                              queryParams: {
-                                'messageText': serializeParam(
-                                    textController!.text, ParamType.String),
-                                'picture': serializeParam(
-                                    uploadedFileUrl, ParamType.String),
-                              }.withoutNulls,
-                            );
+                            if (currentUserDocument!.lastChat == null) {
+                              final chatsCreateData = {
+                                ...createChatsRecordData(
+                                  initiator: currentUserReference,
+                                  chatMessage: textController!.text,
+                                  chatImage: uploadedFileUrl,
+                                  chatMoodIdx: 4,
+                                  status: 0,
+                                  startedAt: getCurrentTimestamp,
+                                ),
+                                'participants': (currentUserDocument
+                                        ?.groupMembers
+                                        ?.toList() ??
+                                    []),
+                              };
+                              var chatsRecordReference =
+                                  ChatsRecord.collection.doc();
+                              await chatsRecordReference.set(chatsCreateData);
+                              lastChat = ChatsRecord.getDocumentFromData(
+                                  chatsCreateData, chatsRecordReference);
+
+                              final usersUpdateData = createUsersRecordData(
+                                lastChat: lastChat!.reference,
+                              );
+                              await currentUserReference!
+                                  .update(usersUpdateData);
+                              setState(() => FFAppState().lastChat =
+                                  currentUserDocument!.lastChat);
+
+                              final messagesCreateData = {
+                                ...createMessagesRecordData(
+                                  messageBody: textController!.text,
+                                  created: getCurrentTimestamp,
+                                  moodIdx: 4,
+                                  image: uploadedFileUrl,
+                                  sender: currentUserReference,
+                                  status: 0,
+                                ),
+                                'recipients': (currentUserDocument?.groupMembers
+                                        ?.toList() ??
+                                    []),
+                              };
+                              var messagesRecordReference =
+                                  MessagesRecord.collection.doc();
+                              await messagesRecordReference
+                                  .set(messagesCreateData);
+                              lastMessage = MessagesRecord.getDocumentFromData(
+                                  messagesCreateData, messagesRecordReference);
+                              setState(() => FFAppState().myLastMessage =
+                                  lastMessage!.reference);
+                              triggerPushNotification(
+                                notificationTitle: 'S.O.S.',
+                                notificationText: textController!.text,
+                                notificationImageUrl: uploadedFileUrl,
+                                notificationSound: 'default',
+                                userRefs: (currentUserDocument?.groupMembers
+                                            ?.toList() ??
+                                        [])
+                                    .toList(),
+                                initialPageName: 'Home',
+                                parameterData: {},
+                              );
+                            } else {
+                              setState(() => FFAppState().lastChat =
+                                  currentUserDocument!.lastChat);
+                            }
+
+                            context.pushNamed('Chat');
                           },
                         ),
                       ),
