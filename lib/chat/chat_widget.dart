@@ -90,6 +90,8 @@ class _ChatWidgetState extends State<ChatWidget> {
             );
             await currentUserDocument!.lastChat!.update(chatsUpdateData);
           }
+
+          scaffoldKey.currentState!.openEndDrawer();
         },
         backgroundColor: FlutterFlowTheme.of(context).secondaryColor,
         elevation: 8,
@@ -97,6 +99,256 @@ class _ChatWidgetState extends State<ChatWidget> {
           FontAwesomeIcons.handPaper,
           color: FlutterFlowTheme.of(context).secondaryText,
           size: 24,
+        ),
+      ),
+      endDrawer: Container(
+        width: double.infinity,
+        child: Drawer(
+          elevation: 16,
+          child: AuthUserStreamWidget(
+            child: StreamBuilder<ChatsRecord>(
+              stream: ChatsRecord.getDocument(currentUserDocument!.lastChat!),
+              builder: (context, snapshot) {
+                // Customize what your widget looks like when it's loading.
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                      ),
+                    ),
+                  );
+                }
+                final containerChatsRecord = snapshot.data!;
+                return Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Color(0xCB000000),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      context.pushNamed('Home');
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (containerChatsRecord.chatMoodIdx == 0)
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional(0, 1),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          width: 110,
+                                          height: 110,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiaryColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Color(0x802FB73C),
+                                              width: 10,
+                                            ),
+                                          ),
+                                          child: FlutterFlowIconButton(
+                                            borderColor: Colors.transparent,
+                                            borderRadius: 90,
+                                            buttonSize: 69,
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.smileBeam,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              size: 30,
+                                            ),
+                                            onPressed: () {
+                                              print('IconButton pressed ...');
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              currentUserPhoto,
+                                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0, -0.05),
+                                    child: Text(
+                                      'You handled it',
+                                      style: FlutterFlowTheme.of(context)
+                                          .title1
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                          ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Text(
+                                      'Good job!',
+                                      style: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            fontSize: 14,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        if (containerChatsRecord.chatMoodIdx != 0)
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional(0, 1),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          width: 110,
+                                          height: 110,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Color(0x83BA1A1A),
+                                              width: 10,
+                                            ),
+                                          ),
+                                          child: FlutterFlowIconButton(
+                                            borderColor: Colors.transparent,
+                                            borderRadius: 90,
+                                            buttonSize: 69,
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.sadTear,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryText,
+                                              size: 30,
+                                            ),
+                                            onPressed: () {
+                                              print('IconButton pressed ...');
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            valueOrDefault<String>(
+                                              currentUserPhoto,
+                                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0, -0.05),
+                                    child: Text(
+                                      'You gave up',
+                                      style: FlutterFlowTheme.of(context)
+                                          .title1
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                          ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Text(
+                                      'You can try better next time',
+                                      style: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            fontSize: 14,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        Expanded(
+                          child: Align(
+                            alignment: AlignmentDirectional(0, 0.4),
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  FlutterFlowIconButton(
+                                    borderColor: Colors.transparent,
+                                    borderRadius: 90,
+                                    borderWidth: 1,
+                                    buttonSize: 60,
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .secondaryColor,
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.handRock,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 30,
+                                    ),
+                                    onPressed: () async {
+                                      context.pushNamed('Home');
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ),
       body: SafeArea(

@@ -67,13 +67,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                     maxHeight: 120,
                   ),
                   decoration: BoxDecoration(),
-                  child: StreamBuilder<List<MessagesRecord>>(
-                    stream: queryMessagesRecord(
-                      queryBuilder: (messagesRecord) => messagesRecord
-                          .where('recipients',
+                  child: StreamBuilder<List<ChatsRecord>>(
+                    stream: queryChatsRecord(
+                      queryBuilder: (chatsRecord) => chatsRecord
+                          .where('participants',
                               arrayContains: currentUserReference)
                           .where('status', isEqualTo: 0)
-                          .orderBy('created', descending: true),
+                          .orderBy('started_at', descending: true),
                     ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -88,17 +88,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                           ),
                         );
                       }
-                      List<MessagesRecord> listViewMessagesRecordList =
+                      List<ChatsRecord> listViewChatsRecordList =
                           snapshot.data!;
                       return ListView.builder(
                         padding: EdgeInsets.zero,
                         primary: false,
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        itemCount: listViewMessagesRecordList.length,
+                        itemCount: listViewChatsRecordList.length,
                         itemBuilder: (context, listViewIndex) {
-                          final listViewMessagesRecord =
-                              listViewMessagesRecordList[listViewIndex];
+                          final listViewChatsRecord =
+                              listViewChatsRecordList[listViewIndex];
                           return Container(
                             width: double.infinity,
                             height: 120,
@@ -113,7 +113,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   child: custom_widgets.MoodContainerWidget(
                                     width: double.infinity,
                                     height: 120,
-                                    moodIndex: listViewMessagesRecord.moodIdx,
+                                    moodIndex: listViewChatsRecord.chatMoodIdx,
                                     moodColors:
                                         FFAppState().sliderColors.toList(),
                                     borderRadius: 16.0,
@@ -149,8 +149,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               child: Text(
                                                 dateTimeFormat(
                                                     'relative',
-                                                    listViewMessagesRecord
-                                                        .created!),
+                                                    listViewChatsRecord
+                                                        .startedAt!),
                                                 textAlign: TextAlign.start,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -165,35 +165,34 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 8, 0, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(4, 0, 0, 0),
-                                              child: StreamBuilder<UsersRecord>(
-                                                stream: UsersRecord.getDocument(
-                                                    listViewMessagesRecord
-                                                        .sender!),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 50,
-                                                        height: 50,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  final circleImageUsersRecord =
-                                                      snapshot.data!;
-                                                  return Container(
+                                        child: StreamBuilder<UsersRecord>(
+                                          stream: UsersRecord.getDocument(
+                                              listViewChatsRecord.initiator!),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final rowUsersRecord =
+                                                snapshot.data!;
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(4, 0, 0, 0),
+                                                  child: Container(
                                                     width: 60,
                                                     height: 60,
                                                     clipBehavior:
@@ -203,80 +202,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     ),
                                                     child: Image.network(
                                                       valueOrDefault<String>(
-                                                        circleImageUsersRecord
-                                                            .photoUrl,
+                                                        rowUsersRecord.photoUrl,
                                                         'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 80,
-                                                decoration: BoxDecoration(),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              -1, 1),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(20, 0,
-                                                                    0, 8),
-                                                        child: StreamBuilder<
-                                                            UsersRecord>(
-                                                          stream: UsersRecord
-                                                              .getDocument(
-                                                                  listViewMessagesRecord
-                                                                      .sender!),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryColor,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            final textUsersRecord =
-                                                                snapshot.data!;
-                                                            return Text(
-                                                              textUsersRecord
-                                                                  .displayName!,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .subtitle1,
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Row(
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(),
+                                                    child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Expanded(
+                                                        Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  -1, 1),
                                                           child: Padding(
                                                             padding:
                                                                 EdgeInsetsDirectional
@@ -284,52 +231,83 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                         20,
                                                                         0,
                                                                         0,
-                                                                        0),
-                                                            child: Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              height: 40,
-                                                              child: custom_widgets
-                                                                  .MarkdownWidget(
-                                                                width: double
-                                                                    .infinity,
-                                                                height: 40,
-                                                                mdText: listViewMessagesRecord
-                                                                    .messageBody!,
-                                                                txtColor: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                                linkColor: Color(
-                                                                    0xFF0066FA),
-                                                                fontSize: 20.0,
-                                                              ),
+                                                                        8),
+                                                            child: Text(
+                                                              rowUsersRecord
+                                                                  .displayName!,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle1,
                                                             ),
                                                           ),
                                                         ),
-                                                        FlutterFlowIconButton(
-                                                          borderColor: Colors
-                                                              .transparent,
-                                                          borderRadius: 30,
-                                                          borderWidth: 1,
-                                                          buttonSize: 40,
-                                                          icon: Icon(
-                                                            Icons.double_arrow,
-                                                            color: Color(
-                                                                0x7F000000),
-                                                            size: 20,
-                                                          ),
-                                                          onPressed: () {
-                                                            print(
-                                                                'IconButton pressed ...');
-                                                          },
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            20,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                child:
+                                                                    Container(
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 40,
+                                                                  child: custom_widgets
+                                                                      .MarkdownWidget(
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height: 40,
+                                                                    mdText: listViewChatsRecord
+                                                                        .chatMessage!,
+                                                                    txtColor: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryText,
+                                                                    linkColor:
+                                                                        Color(
+                                                                            0xFF0066FA),
+                                                                    fontSize:
+                                                                        20.0,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            FlutterFlowIconButton(
+                                                              borderColor: Colors
+                                                                  .transparent,
+                                                              borderRadius: 30,
+                                                              borderWidth: 1,
+                                                              buttonSize: 40,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .double_arrow,
+                                                                color: Color(
+                                                                    0x7F000000),
+                                                                size: 20,
+                                                              ),
+                                                              onPressed: () {
+                                                                print(
+                                                                    'IconButton pressed ...');
+                                                              },
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ],
+                                              ],
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
