@@ -15,7 +15,7 @@
       ]
     },
     {
-      "collectionGroup": "messages",
+      "collectionGroup": "chats",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -23,11 +23,11 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "recipients",
+          "fieldPath": "participants",
           "arrayConfig": "CONTAINS"
         },
         {
-          "fieldPath": "created",
+          "fieldPath": "started_at",
           "order": "DESCENDING"
         }
       ]
