@@ -14,7 +14,7 @@
         },
         {
           "fieldPath": "created",
-          "order": "ASCENDING"
+          "order": "DESCENDING"
         }
       ]
     }

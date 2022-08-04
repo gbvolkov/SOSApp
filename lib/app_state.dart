@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/lat_lng.dart';
 
 class FFAppState {
@@ -14,6 +16,8 @@ class FFAppState {
 
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
+    _invitationLink = prefs.getString('ff_invitationLink') ?? _invitationLink;
+    _myLastMessage = prefs.getString('ff_myLastMessage')?.ref ?? _myLastMessage;
   }
 
   late SharedPreferences prefs;
@@ -36,6 +40,24 @@ class FFAppState {
   ];
 
   List<double> sliderStops = [0.7, 1];
+
+  String _invitationLink =
+      'https://sosapp.gbvolkoff.name?apn=com.gv.sosapp&ibi=com.gv.sosapp&link=https%3A%2F%2Fsosapp.gbvolkoff.name%2FacceptInvitation%3FhostUID%3D';
+  String get invitationLink => _invitationLink;
+  set invitationLink(String _value) {
+    _invitationLink = _value;
+    prefs.setString('ff_invitationLink', _value);
+  }
+
+  DocumentReference? _myLastMessage;
+  DocumentReference? get myLastMessage => _myLastMessage;
+  set myLastMessage(DocumentReference? _value) {
+    if (_value == null) {
+      return;
+    }
+    _myLastMessage = _value;
+    prefs.setString('ff_myLastMessage', _value.path);
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

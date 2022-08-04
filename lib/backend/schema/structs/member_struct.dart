@@ -31,6 +31,7 @@ MemberStruct createMemberStruct({
   int? status,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
+  bool create = false,
   bool delete = false,
 }) =>
     MemberStruct(
@@ -39,6 +40,7 @@ MemberStruct createMemberStruct({
         ..status = status
         ..firestoreUtilData = FirestoreUtilData(
           clearUnsetFields: clearUnsetFields,
+          create: create,
           delete: delete,
           fieldValues: fieldValues,
         ),
@@ -69,12 +71,15 @@ void addMemberStructData(
     firestoreData[fieldName] = FieldValue.delete();
     return;
   }
-  if (forFieldValue && member.firestoreUtilData.clearUnsetFields) {
+  if (!forFieldValue && member.firestoreUtilData.clearUnsetFields) {
     firestoreData[fieldName] = {};
   }
   final memberData = getMemberFirestoreData(member, forFieldValue);
   final nestedData = memberData.map((k, v) => MapEntry('$fieldName.$k', v));
-  firestoreData.addAll(nestedData);
+
+  final create = member.firestoreUtilData.create;
+  firestoreData.addAll(create ? mergeNestedFields(nestedData) : nestedData);
+
   return;
 }
 

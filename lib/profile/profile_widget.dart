@@ -430,7 +430,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       isNotiffAccepted: switchListTileValue,
                     );
                     await currentUserReference!.update(usersUpdateData);
-                    context.pop();
+                    context.pushNamed('Home');
                   },
                   text: 'Save Changes',
                   options: FFButtonOptions(

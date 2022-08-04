@@ -73,7 +73,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           .where('recipients',
                               arrayContains: currentUserReference)
                           .where('status', isEqualTo: 0)
-                          .orderBy('created'),
+                          .orderBy('created', descending: true),
                     ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -460,8 +460,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 size: 20,
                               ),
                               onPressed: () async {
-                                await Share.share(
-                                    'sosapp://sosapp${GoRouter.of(context).location}');
+                                context.pushNamed(
+                                  'AcceptInvitation',
+                                  queryParams: {
+                                    'hostUID': serializeParam(
+                                        currentUserUid, ParamType.String),
+                                  }.withoutNulls,
+                                );
                               },
                             ),
                           ],

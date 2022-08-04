@@ -8,13 +8,16 @@ import '../../backend/backend.dart';
 import '../../auth/firebase_user_provider.dart';
 import '../../backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
-
+import '../../backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show DynamicLinksHandler;
 import '../../index.dart';
 import '../../main.dart';
 import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
+export '../../backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
 
@@ -296,16 +299,17 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.of(context).primaryColor,
+              ? Container(
+                  color: Colors.transparent,
+                  child: Builder(
+                    builder: (context) => Image.asset(
+                      'assets/images/Welcome2Img.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                 )
-              : PushNotificationsHandler(child: page);
+              : PushNotificationsHandler(
+                  child: DynamicLinksHandler(child: page));
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

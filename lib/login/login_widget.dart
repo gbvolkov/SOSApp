@@ -55,6 +55,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 20),
@@ -214,7 +215,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 180, 0, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
                                 GoRouter.of(context).prepareAuthEvent();
