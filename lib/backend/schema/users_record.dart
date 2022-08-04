@@ -33,6 +33,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 
   DocumentReference? get lastChat;
 
+  int? get lastChatStatus;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -45,7 +47,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..phoneNumber = ''
     ..about = ''
     ..isNotiffAccepted = false
-    ..groupMembers = ListBuilder();
+    ..groupMembers = ListBuilder()
+    ..lastChatStatus = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Users');
@@ -78,6 +81,7 @@ Map<String, dynamic> createUsersRecordData({
   String? about,
   bool? isNotiffAccepted,
   DocumentReference? lastChat,
+  int? lastChatStatus,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -92,7 +96,8 @@ Map<String, dynamic> createUsersRecordData({
         ..about = about
         ..isNotiffAccepted = isNotiffAccepted
         ..groupMembers = null
-        ..lastChat = lastChat,
+        ..lastChat = lastChat
+        ..lastChatStatus = lastChatStatus,
     ),
   );
 
