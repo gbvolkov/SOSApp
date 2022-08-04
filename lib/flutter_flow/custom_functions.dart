@@ -10,11 +10,10 @@ import '../backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../auth/auth_util.dart';
 
-int getChatByRef(DocumentReference docRef) {
+int? getChatByRef(DocumentReference docRef) {
   docRef.get().then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       return documentSnapshot.get('status');
     }
   });
-  return 0;
 }

@@ -401,10 +401,11 @@ List<Color>? getColors(List<int>? colorValues) {
 }
 
 class _MoodSelectorWidgetState extends State<MoodSelectorWidget> {
-  //int switcherIndex = 0;
+  late int switcherIndex;
 
   @override
   void initState() {
+    int switcherIndex = 0;
     super.initState();
   }
 
@@ -450,8 +451,9 @@ class _MoodSelectorWidgetState extends State<MoodSelectorWidget> {
       height: widget.height,
       child: SlideSwitcherGV(
         onSelect: (int index) async {
+          FFAppState().sliderValue = index;
           await widget.onSelect();
-          setState(() => FFAppState().sliderValue = index);
+          setState(() => switcherIndex = index);
           /*setState(() {
             //switcherIndex = index;
             
