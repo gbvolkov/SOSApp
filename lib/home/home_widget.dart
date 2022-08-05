@@ -303,9 +303,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                                     0x7F000000),
                                                                 size: 20,
                                                               ),
-                                                              onPressed: () {
-                                                                print(
-                                                                    'IconButton pressed ...');
+                                                              onPressed:
+                                                                  () async {
+                                                                context
+                                                                    .pushNamed(
+                                                                  'HelpChat',
+                                                                  queryParams: {
+                                                                    'chat': serializeParam(
+                                                                        listViewChatsRecord
+                                                                            .reference,
+                                                                        ParamType
+                                                                            .DocumentReference),
+                                                                  }.withoutNulls,
+                                                                );
                                                               },
                                                             ),
                                                           ],

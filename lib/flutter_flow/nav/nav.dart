@@ -118,6 +118,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   : ProfileWidget(),
             ),
             FFRoute(
+              name: 'AcceptInvitation',
+              path: 'acceptInvitation',
+              requireAuth: true,
+              builder: (context, params) => AcceptInvitationWidget(
+                hostUID: params.getParam('hostUID', ParamType.String),
+              ),
+            ),
+            FFRoute(
               name: 'Home',
               path: 'home',
               builder: (context, params) => params.isEmpty
@@ -125,11 +133,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   : HomeWidget(),
             ),
             FFRoute(
-              name: 'AcceptInvitation',
-              path: 'acceptInvitation',
-              requireAuth: true,
-              builder: (context, params) => AcceptInvitationWidget(
-                hostUID: params.getParam('hostUID', ParamType.String),
+              name: 'HelpChat',
+              path: 'helpChat',
+              builder: (context, params) => HelpChatWidget(
+                chat: params.getParam(
+                    'chat', ParamType.DocumentReference, 'chats'),
               ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),

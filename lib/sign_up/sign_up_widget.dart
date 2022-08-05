@@ -381,6 +381,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
                                   final usersCreateData = createUsersRecordData(
                                     displayName: nameController!.text,
+                                    lastChatStatus: -100,
                                   );
                                   await UsersRecord.collection
                                       .doc(user.uid)
