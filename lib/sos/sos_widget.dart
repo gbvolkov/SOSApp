@@ -22,13 +22,13 @@ class SosWidget extends StatefulWidget {
 class _SosWidgetState extends State<SosWidget> {
   ChatsRecord? lastChat;
   String uploadedFileUrl = '';
-  TextEditingController? textController;
+  TextEditingController? txtSOSMessageController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController(text: 'S.O.S.');
+    txtSOSMessageController = TextEditingController(text: 'S.O.S.');
   }
 
   @override
@@ -216,7 +216,7 @@ class _SosWidgetState extends State<SosWidget> {
                               final chatsCreateData = {
                                 ...createChatsRecordData(
                                   initiator: currentUserReference,
-                                  chatMessage: textController!.text,
+                                  chatMessage: txtSOSMessageController!.text,
                                   chatImage: uploadedFileUrl,
                                   chatMoodIdx: 4,
                                   status: 0,
@@ -241,7 +241,7 @@ class _SosWidgetState extends State<SosWidget> {
                                   .update(usersUpdateData);
                               triggerPushNotification(
                                 notificationTitle: 'S.O.S.',
-                                notificationText: textController!.text,
+                                notificationText: txtSOSMessageController!.text,
                                 notificationImageUrl: uploadedFileUrl,
                                 notificationSound: 'default',
                                 userRefs: (currentUserDocument?.groupMembers
@@ -254,6 +254,9 @@ class _SosWidgetState extends State<SosWidget> {
                                 },
                               );
                             }
+                            setState(() {
+                              txtSOSMessageController?.clear();
+                            });
                             context.pushNamed('Chat');
                           },
                         ),
@@ -277,7 +280,7 @@ class _SosWidgetState extends State<SosWidget> {
                             children: [
                               Expanded(
                                 child: TextFormField(
-                                  controller: textController,
+                                  controller: txtSOSMessageController,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     hintText: 'Add a message',

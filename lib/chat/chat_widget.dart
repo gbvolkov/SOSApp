@@ -23,13 +23,13 @@ class ChatWidget extends StatefulWidget {
 class _ChatWidgetState extends State<ChatWidget> {
   MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
-  TextEditingController? textController;
+  TextEditingController? txtMessageController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    txtMessageController = TextEditingController();
   }
 
   @override
@@ -1053,7 +1053,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                                   children: [
                                     Expanded(
                                       child: TextFormField(
-                                        controller: textController,
+                                        controller: txtMessageController,
                                         obscureText: false,
                                         decoration: InputDecoration(
                                           hintText: 'Add a message',
@@ -1168,7 +1168,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                                         if (rowChatsRecord.status == 0) {
                                           final messagesCreateData = {
                                             ...createMessagesRecordData(
-                                              messageBody: textController!.text,
+                                              messageBody:
+                                                  txtMessageController!.text,
                                               created: getCurrentTimestamp,
                                               moodIdx: FFAppState().sliderValue,
                                               sender: currentUserReference,
@@ -1189,6 +1190,9 @@ class _ChatWidgetState extends State<ChatWidget> {
                                               .getDocumentFromData(
                                                   messagesCreateData,
                                                   messagesRecordReference);
+                                          setState(() {
+                                            txtMessageController?.clear();
+                                          });
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
