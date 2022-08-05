@@ -569,133 +569,106 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                                                     .toList(),
                                                             borderRadius: 16.0,
                                                           ),
-                                                          StreamBuilder<
-                                                              UsersRecord>(
-                                                            stream: UsersRecord
-                                                                .getDocument(
-                                                                    lvMessagesMessagesRecord
-                                                                        .sender!),
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              // Customize what your widget looks like when it's loading.
-                                                              if (!snapshot
-                                                                  .hasData) {
-                                                                return Center(
-                                                                  child:
-                                                                      SizedBox(
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                    child:
-                                                                        CircularProgressIndicator(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryColor,
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              10,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                      child: custom_widgets
+                                                                          .MarkdownWidget(
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height:
+                                                                            40,
+                                                                        mdText:
+                                                                            lvMessagesMessagesRecord.messageBody!,
+                                                                        txtColor:
+                                                                            FlutterFlowTheme.of(context).primaryText,
+                                                                        linkColor:
+                                                                            Color(0xFF0066FA),
+                                                                        fontSize:
+                                                                            20.0,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              }
-                                                              final rowUsersRecord =
-                                                                  snapshot
-                                                                      .data!;
-                                                              return Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .end,
-                                                                children: [
-                                                                  Expanded(
-                                                                    child: StreamBuilder<
-                                                                        UsersRecord>(
-                                                                      stream: UsersRecord.getDocument(
-                                                                          stackChatsRecord
-                                                                              .initiator!),
-                                                                      builder:
-                                                                          (context,
-                                                                              snapshot) {
-                                                                        // Customize what your widget looks like when it's loading.
-                                                                        if (!snapshot
-                                                                            .hasData) {
-                                                                          return Center(
-                                                                            child:
-                                                                                SizedBox(
-                                                                              width: 50,
-                                                                              height: 50,
-                                                                              child: CircularProgressIndicator(
-                                                                                color: FlutterFlowTheme.of(context).primaryColor,
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              5,
+                                                                              0,
+                                                                              0,
+                                                                              5),
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () async {
+                                                                          await Navigator
+                                                                              .push(
+                                                                            context,
+                                                                            PageTransition(
+                                                                              type: PageTransitionType.fade,
+                                                                              child: FlutterFlowExpandedImageView(
+                                                                                image: Image.network(
+                                                                                  lvMessagesMessagesRecord.image!,
+                                                                                  fit: BoxFit.contain,
+                                                                                ),
+                                                                                allowRotation: false,
+                                                                                tag: lvMessagesMessagesRecord.image!,
+                                                                                useHeroAnimation: true,
                                                                               ),
                                                                             ),
                                                                           );
-                                                                        }
-                                                                        final columnUsersRecord =
-                                                                            snapshot.data!;
-                                                                        return Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.end,
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                                                                              child: custom_widgets.MarkdownWidget(
-                                                                                width: double.infinity,
-                                                                                height: 40,
-                                                                                mdText: lvMessagesMessagesRecord.messageBody!,
-                                                                                txtColor: FlutterFlowTheme.of(context).primaryText,
-                                                                                linkColor: Color(0xFF0066FA),
-                                                                                fontSize: 20.0,
-                                                                              ),
+                                                                        },
+                                                                        child:
+                                                                            Hero(
+                                                                          tag: lvMessagesMessagesRecord
+                                                                              .image!,
+                                                                          transitionOnUserGestures:
+                                                                              true,
+                                                                          child:
+                                                                              ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.only(
+                                                                              bottomLeft: Radius.circular(0),
+                                                                              bottomRight: Radius.circular(24),
+                                                                              topLeft: Radius.circular(24),
+                                                                              topRight: Radius.circular(0),
                                                                             ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 5),
-                                                                              child: InkWell(
-                                                                                onTap: () async {
-                                                                                  await Navigator.push(
-                                                                                    context,
-                                                                                    PageTransition(
-                                                                                      type: PageTransitionType.fade,
-                                                                                      child: FlutterFlowExpandedImageView(
-                                                                                        image: Image.network(
-                                                                                          lvMessagesMessagesRecord.image!,
-                                                                                          fit: BoxFit.contain,
-                                                                                        ),
-                                                                                        allowRotation: false,
-                                                                                        tag: lvMessagesMessagesRecord.image!,
-                                                                                        useHeroAnimation: true,
-                                                                                      ),
-                                                                                    ),
-                                                                                  );
-                                                                                },
-                                                                                child: Hero(
-                                                                                  tag: lvMessagesMessagesRecord.image!,
-                                                                                  transitionOnUserGestures: true,
-                                                                                  child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.only(
-                                                                                      bottomLeft: Radius.circular(0),
-                                                                                      bottomRight: Radius.circular(24),
-                                                                                      topLeft: Radius.circular(24),
-                                                                                      topRight: Radius.circular(0),
-                                                                                    ),
-                                                                                    child: Image.network(
-                                                                                      lvMessagesMessagesRecord.image!,
-                                                                                      width: double.infinity,
-                                                                                      fit: BoxFit.cover,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
+                                                                            child:
+                                                                                Image.network(
+                                                                              lvMessagesMessagesRecord.image!,
+                                                                              width: double.infinity,
+                                                                              fit: BoxFit.cover,
                                                                             ),
-                                                                          ],
-                                                                        );
-                                                                      },
+                                                                          ),
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
                                                       ),
