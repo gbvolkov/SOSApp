@@ -27,13 +27,13 @@ class HelpChatWidget extends StatefulWidget {
 class _HelpChatWidgetState extends State<HelpChatWidget> {
   MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
-  TextEditingController? textController;
+  TextEditingController? txtMessageController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    txtMessageController = TextEditingController();
   }
 
   @override
@@ -729,7 +729,7 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                 children: [
                                   Expanded(
                                     child: TextFormField(
-                                      controller: textController,
+                                      controller: txtMessageController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Add a message',
@@ -840,7 +840,8 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                       if (stackChatsRecord.status == 0) {
                                         final messagesCreateData = {
                                           ...createMessagesRecordData(
-                                            messageBody: textController!.text,
+                                            messageBody:
+                                                txtMessageController!.text,
                                             created: getCurrentTimestamp,
                                             moodIdx: 0,
                                             sender: currentUserReference,
@@ -859,6 +860,9 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                             MessagesRecord.getDocumentFromData(
                                                 messagesCreateData,
                                                 messagesRecordReference);
+                                        setState(() {
+                                          txtMessageController?.clear();
+                                        });
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
