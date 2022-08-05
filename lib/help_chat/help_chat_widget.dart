@@ -214,23 +214,35 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                       type: PageTransitionType.fade,
                                       child: FlutterFlowExpandedImageView(
                                         image: Image.network(
-                                          stackChatsRecord.chatImage!,
+                                          valueOrDefault<String>(
+                                            stackChatsRecord.chatImage,
+                                            'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                          ),
                                           fit: BoxFit.contain,
                                         ),
                                         allowRotation: false,
-                                        tag: stackChatsRecord.chatImage!,
+                                        tag: valueOrDefault<String>(
+                                          stackChatsRecord.chatImage,
+                                          'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                        ),
                                         useHeroAnimation: true,
                                       ),
                                     ),
                                   );
                                 },
                                 child: Hero(
-                                  tag: stackChatsRecord.chatImage!,
+                                  tag: valueOrDefault<String>(
+                                    stackChatsRecord.chatImage,
+                                    'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                  ),
                                   transitionOnUserGestures: true,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
                                     child: Image.network(
-                                      stackChatsRecord.chatImage!,
+                                      valueOrDefault<String>(
+                                        stackChatsRecord.chatImage,
+                                        'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                      ),
                                       width: double.infinity,
                                       height: 100,
                                       fit: BoxFit.contain,
