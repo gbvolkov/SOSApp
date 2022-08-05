@@ -248,8 +248,10 @@ class _SosWidgetState extends State<SosWidget> {
                                             ?.toList() ??
                                         [])
                                     .toList(),
-                                initialPageName: 'Home',
-                                parameterData: {},
+                                initialPageName: 'HelpChat',
+                                parameterData: {
+                                  'chat': lastChat!.reference,
+                                },
                               );
                             }
                             context.pushNamed('Chat');

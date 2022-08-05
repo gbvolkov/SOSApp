@@ -84,9 +84,12 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'SignUp': (data) async => SignUpWidget(),
   'Chat': (data) async => ChatWidget(),
   'Profile': (data) async => NavBarPage(initialPage: 'Profile'),
-  'Home': (data) async => NavBarPage(initialPage: 'Home'),
   'AcceptInvitation': (data) async => AcceptInvitationWidget(
         hostUID: getParameter(data, 'hostUID'),
+      ),
+  'Home': (data) async => NavBarPage(initialPage: 'Home'),
+  'HelpChat': (data) async => HelpChatWidget(
+        chat: getParameter(data, 'chat'),
       ),
 };
 

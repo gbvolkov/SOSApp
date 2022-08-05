@@ -6,6 +6,7 @@ export 'sign_up/sign_up_widget.dart' show SignUpWidget;
 export 'sos/sos_widget.dart' show SosWidget;
 export 'chat/chat_widget.dart' show ChatWidget;
 export 'profile/profile_widget.dart' show ProfileWidget;
-export 'home/home_widget.dart' show HomeWidget;
 export 'accept_invitation/accept_invitation_widget.dart'
     show AcceptInvitationWidget;
+export 'home/home_widget.dart' show HomeWidget;
+export 'help_chat/help_chat_widget.dart' show HelpChatWidget;
