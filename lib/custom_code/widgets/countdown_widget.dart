@@ -3,6 +3,7 @@ import '../../backend/backend.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
+import '../../flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom widget code
 import 'package:circular_countdown_timer/circular_countdown_timer.dart'
@@ -27,6 +28,7 @@ class CountdownWidget extends StatefulWidget {
     this.isTimerTextShown,
     this.autoStart,
     this.label,
+    this.bgColorInt,
     this.activeTimerEvents,
     required this.onComplete,
   }) : super(key: key);
@@ -47,6 +49,7 @@ class CountdownWidget extends StatefulWidget {
   final bool? isTimerTextShown;
   final bool? autoStart;
   final String? label;
+  final int? bgColorInt;
   final List<String>? activeTimerEvents;
   final Future<dynamic> Function() onComplete;
 
@@ -124,7 +127,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 height: widget.height ?? 100,
                 ringColor: widget.ringColor ?? Colors.grey[300]!,
                 fillColor: widget.fillColor ?? Colors.purpleAccent[100]!,
-                backgroundColor: widget.backgroundColor ?? Colors.purple[500],
+                backgroundColor: (widget.bgColorInt != null)
+                    ? Color(widget.bgColorInt!)
+                    : widget.backgroundColor ?? Colors.purple[500],
                 strokeWidth: widget.strokeWidth ?? 5.0,
                 textStyle: txtStyle,
                 textFormat: widget.textFormat,
