@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
+import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_expanded_image_view.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -20,15 +21,39 @@ class ChatWidget extends StatefulWidget {
   _ChatWidgetState createState() => _ChatWidgetState();
 }
 
-class _ChatWidgetState extends State<ChatWidget> {
+class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
   MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
   TextEditingController? txtMessageController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final animationsMap = {
+    'containerOnActionTriggerAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onActionTrigger,
+      duration: 600,
+      hideBeforeAnimating: true,
+      fadeIn: true,
+      initialState: AnimationState(
+        offset: Offset(0, 100),
+        scale: 1,
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        scale: 1,
+        opacity: 1,
+      ),
+    ),
+  };
 
   @override
   void initState() {
     super.initState();
+    setupTriggerAnimations(
+      animationsMap.values
+          .where((anim) => anim.trigger == AnimationTrigger.onActionTrigger),
+      this,
+    );
+
     txtMessageController = TextEditingController();
   }
 
@@ -77,40 +102,6 @@ class _ChatWidgetState extends State<ChatWidget> {
         elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (FFAppState().sliderValue == 0) {
-            final chatsUpdateData = createChatsRecordData(
-              status: 1,
-            );
-            await currentUserDocument!.lastChat!.update(chatsUpdateData);
-
-            final usersUpdateData = createUsersRecordData(
-              lastChatStatus: 1,
-            );
-            await currentUserReference!.update(usersUpdateData);
-          } else {
-            final chatsUpdateData = createChatsRecordData(
-              status: -1,
-            );
-            await currentUserDocument!.lastChat!.update(chatsUpdateData);
-
-            final usersUpdateData = createUsersRecordData(
-              lastChatStatus: -1,
-            );
-            await currentUserReference!.update(usersUpdateData);
-          }
-
-          scaffoldKey.currentState!.openEndDrawer();
-        },
-        backgroundColor: FlutterFlowTheme.of(context).secondaryColor,
-        elevation: 8,
-        child: FaIcon(
-          FontAwesomeIcons.handPaper,
-          color: FlutterFlowTheme.of(context).secondaryText,
-          size: 24,
-        ),
-      ),
       endDrawer: Container(
         width: double.infinity,
         child: Drawer(
@@ -803,7 +794,10 @@ class _ChatWidgetState extends State<ChatWidget> {
                                                       ),
                                                     ],
                                                   ),
-                                                ),
+                                                ).animated([
+                                                  animationsMap[
+                                                      'containerOnActionTriggerAnimation']!
+                                                ]),
                                               ),
                                             if (lvMessagesMessagesRecord
                                                     .sender ==
@@ -984,7 +978,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 30, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: Container(
                               width: 40,
                               height: 280,
@@ -1107,7 +1101,6 @@ class _ChatWidgetState extends State<ChatWidget> {
                                           maxHeight: 150.00,
                                           imageQuality: 51,
                                           allowPhoto: true,
-                                          allowVideo: true,
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .secondaryBackground,
@@ -1229,6 +1222,63 @@ class _ChatWidgetState extends State<ChatWidget> {
                               },
                             ),
                           ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        child: custom_widgets.CountdownWidget(
+                          width: 60,
+                          height: 60,
+                          duration: 300,
+                          initialDuration: 0,
+                          ringColor:
+                              FlutterFlowTheme.of(context).secondaryColor,
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          backgroundColor:
+                              FlutterFlowTheme.of(context).secondaryColor,
+                          strokeWidth: 4.0,
+                          textColor: FlutterFlowTheme.of(context).secondaryText,
+                          textFontSize: 20.0,
+                          textFormat: 'mm:ss',
+                          isReverse: true,
+                          isReverseAnimation: true,
+                          isTimerTextShown: true,
+                          autoStart: true,
+                          activeTimerEvents: ['onTap', 'onComplete'].toList(),
+                          onComplete: () async {
+                            if (FFAppState().sliderValue == 0) {
+                              final chatsUpdateData = createChatsRecordData(
+                                status: 1,
+                              );
+                              await currentUserDocument!.lastChat!
+                                  .update(chatsUpdateData);
+
+                              final usersUpdateData = createUsersRecordData(
+                                lastChatStatus: 1,
+                              );
+                              await currentUserReference!
+                                  .update(usersUpdateData);
+                            } else {
+                              final chatsUpdateData = createChatsRecordData(
+                                status: -1,
+                              );
+                              await currentUserDocument!.lastChat!
+                                  .update(chatsUpdateData);
+
+                              final usersUpdateData = createUsersRecordData(
+                                lastChatStatus: -1,
+                              );
+                              await currentUserReference!
+                                  .update(usersUpdateData);
+                            }
+
+                            scaffoldKey.currentState!.openEndDrawer();
+                          },
                         ),
                       ),
                     ),

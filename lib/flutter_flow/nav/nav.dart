@@ -139,6 +139,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 chat: params.getParam(
                     'chat', ParamType.DocumentReference, 'chats'),
               ),
+            ),
+            FFRoute(
+              name: 'Test',
+              path: 'test',
+              builder: (context, params) => TestWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),

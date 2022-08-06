@@ -10,3 +10,4 @@ export 'accept_invitation/accept_invitation_widget.dart'
     show AcceptInvitationWidget;
 export 'home/home_widget.dart' show HomeWidget;
 export 'help_chat/help_chat_widget.dart' show HelpChatWidget;
+export 'test/test_widget.dart' show TestWidget;
