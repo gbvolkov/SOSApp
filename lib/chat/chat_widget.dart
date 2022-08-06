@@ -1054,7 +1054,7 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                           FFAppState().msgImg,
                                           width: 40,
                                           height: 40,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                         ),
                                         Expanded(
                                           child: TextFormField(
