@@ -27,6 +27,7 @@ class CountdownWidget extends StatefulWidget {
     this.isTimerTextShown,
     this.autoStart,
     this.label,
+    this.bgColorInt,
     this.activeTimerEvents,
     required this.onComplete,
   }) : super(key: key);
@@ -47,6 +48,7 @@ class CountdownWidget extends StatefulWidget {
   final bool? isTimerTextShown;
   final bool? autoStart;
   final String? label;
+  final int? bgColorInt;
   final List<String>? activeTimerEvents;
   final Future<dynamic> Function() onComplete;
 
@@ -124,7 +126,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 height: widget.height ?? 100,
                 ringColor: widget.ringColor ?? Colors.grey[300]!,
                 fillColor: widget.fillColor ?? Colors.purpleAccent[100]!,
-                backgroundColor: widget.backgroundColor ?? Colors.purple[500],
+                backgroundColor: (widget.bgColorInt != null)
+                    ? Color(widget.bgColorInt!)
+                    : widget.backgroundColor ?? Colors.purple[500],
                 strokeWidth: widget.strokeWidth ?? 5.0,
                 textStyle: txtStyle,
                 textFormat: widget.textFormat,
