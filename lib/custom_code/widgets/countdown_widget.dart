@@ -135,7 +135,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             child: Stack(children: [
               countdown.CircularCountDownTimer(
                 duration: widget.duration ?? 10,
-                initialDuration: widget.initialDuration ?? 0,
+                initialDuration:
+                    min(widget.initialDuration ?? 0, widget.duration ?? 10),
                 width: widget.width ?? 100,
                 height: widget.height ?? 100,
                 ringColor: widget.ringColor ?? Colors.grey[300]!,
