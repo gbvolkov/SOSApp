@@ -103,13 +103,6 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   void deactivate() {
     super.deactivate();
     _timer?.cancel();
-    //_controller?.reset();
-  }
-
-  @override
-  void activate() {
-    super.activate();
-    if (isStarted) _controller?.restart();
   }
 
   @override
@@ -125,7 +118,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     TextStyle txtStyle =
         TextStyle(color: widget.textColor, fontSize: widget.textFontSize);
     //controller.start();
-    //if (isStarted) _controller?.restart();
+    if (isStarted) _controller?.restart();
     return GestureDetector(
         onTap: (widget.activeTimerEvents?.contains('onTap') ?? true)
             ? () async {
@@ -142,8 +135,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             child: Stack(children: [
               countdown.CircularCountDownTimer(
                 duration: widget.duration ?? 10,
-                initialDuration:
-                    min(widget.initialDuration ?? 0, widget.duration ?? 10),
+                initialDuration: widget.initialDuration ?? 0,
                 width: widget.width ?? 100,
                 height: widget.height ?? 100,
                 ringColor: widget.ringColor ?? Colors.grey[300]!,
