@@ -955,6 +955,12 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
+                                  Image.network(
+                                    FFAppState().msgImg,
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.contain,
+                                  ),
                                   Expanded(
                                     child: TextFormField(
                                       controller: txtMessageController,
@@ -993,13 +999,13 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                   ),
                                   FlutterFlowIconButton(
                                     borderColor: Colors.transparent,
-                                    borderRadius: 30,
+                                    borderRadius: 20,
                                     borderWidth: 1,
-                                    buttonSize: 60,
+                                    buttonSize: 40,
                                     icon: Icon(
                                       Icons.camera_alt_outlined,
                                       color: Color(0x80000000),
-                                      size: 30,
+                                      size: 20,
                                     ),
                                     onPressed: () async {
                                       final selectedMedia =
@@ -1052,17 +1058,20 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                           return;
                                         }
                                       }
+
+                                      setState(() => FFAppState().msgImg =
+                                          uploadedFileUrl);
                                     },
                                   ),
                                   FlutterFlowIconButton(
                                     borderColor: Colors.transparent,
-                                    borderRadius: 30,
+                                    borderRadius: 20,
                                     borderWidth: 1,
-                                    buttonSize: 60,
+                                    buttonSize: 40,
                                     icon: Icon(
                                       Icons.send_outlined,
                                       color: Color(0x80000000),
-                                      size: 30,
+                                      size: 20,
                                     ),
                                     onPressed: () async {
                                       if (stackChatsRecord.status == 0) {
@@ -1091,6 +1100,8 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                         setState(() {
                                           txtMessageController?.clear();
                                         });
+                                        setState(
+                                            () => FFAppState().msgImg = '');
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
