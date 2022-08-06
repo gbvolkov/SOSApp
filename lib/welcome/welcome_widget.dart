@@ -35,121 +35,123 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         PageController(initialPage: 0),
                     scrollDirection: Axis.horizontal,
                     children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(0, 0.2),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 390,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFD9E0E7),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            50, 30, 50, 0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Image.asset(
-                                            'assets/images/Welcome1Img.png',
-                                            width: 100,
-                                            height: 450,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            40, 20, 40, 0),
-                                        child: Text(
-                                          'Feeling anxious and ready to give up?\n',
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: AlignmentDirectional(0, 1),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              await welcomePageViewController
-                                                  ?.nextPage(
-                                                duration:
-                                                    Duration(milliseconds: 300),
-                                                curve: Curves.ease,
-                                              );
-                                            },
-                                            child: Container(
-                                              width: 90,
-                                              height: 90,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Image.asset(
-                                                'assets/images/WelcomBtn1.png',
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 10, 0, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              ' ',
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        color:
-                                                            Color(0xFF857371),
-                                                      ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Align(
-                                    alignment:
-                                        AlignmentDirectional(-0.6, -0.84),
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional(0, 0.2),
+                              child: Container(
+                                width: double.infinity,
+                                height: 390,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFD9E0E7),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      50, 30, 50, 0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
                                     child: Image.asset(
-                                      'assets/images/S.O.S.png',
-                                      width: 75,
-                                      height: 35,
+                                      'assets/images/Welcome1Img.png',
+                                      width: 100,
+                                      height: 450,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      40, 20, 40, 0),
+                                  child: Text(
+                                    'Feeling anxious and ready to give up?\n',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 20, 0, 0),
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: custom_widgets.CountdownWidget(
+                                        width: 90,
+                                        height: 90,
+                                        duration: 120,
+                                        ringColor: FlutterFlowTheme.of(context)
+                                            .secondaryColor,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                        strokeWidth: 4.0,
+                                        textColor: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        autoStart: true,
+                                        label: ' 👉',
+                                        timerPeriod: 30,
+                                        activeTimerEvents: ['onTap'].toList(),
+                                        onComplete: () async {
+                                          await welcomePageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 10, 0, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        ' ',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color: Color(0xFF857371),
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional(-0.6, -0.84),
+                              child: Image.asset(
+                                'assets/images/S.O.S.png',
+                                width: 75,
+                                height: 35,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Container(
                         width: double.infinity,
@@ -194,27 +196,44 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         FlutterFlowTheme.of(context).bodyText1,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0, 1),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        await welcomePageViewController
-                                            ?.nextPage(
-                                          duration: Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                      child: Container(
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 20, 0, 0),
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: custom_widgets.CountdownWidget(
                                         width: 90,
                                         height: 90,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.asset(
-                                          'assets/images/Welcom2Btn.png',
-                                        ),
+                                        duration: 120,
+                                        initialDuration: 30,
+                                        ringColor: FlutterFlowTheme.of(context)
+                                            .secondaryColor,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                        strokeWidth: 4.0,
+                                        textColor: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        autoStart: true,
+                                        label: ' 👉',
+                                        timerPeriod: 30,
+                                        activeTimerEvents: ['onTap'].toList(),
+                                        onComplete: () async {
+                                          await welcomePageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
@@ -296,23 +315,39 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         FlutterFlowTheme.of(context).bodyText1,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0, 1),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        context.pushNamed('Login');
-                                      },
-                                      child: Container(
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 20, 0, 0),
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0, 0),
+                                      child: custom_widgets.CountdownWidget(
                                         width: 90,
                                         height: 90,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.asset(
-                                          'assets/images/Welcom3Btn.png',
-                                        ),
+                                        duration: 120,
+                                        initialDuration: 60,
+                                        ringColor: FlutterFlowTheme.of(context)
+                                            .secondaryColor,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondaryColor,
+                                        strokeWidth: 4.0,
+                                        textColor: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        autoStart: true,
+                                        label: ' ✔',
+                                        activeTimerEvents:
+                                            ['onTap', 'onComplete'].toList(),
+                                        onComplete: () async {
+                                          context.pushNamed('Login');
+                                        },
                                       ),
                                     ),
                                   ),
@@ -368,37 +403,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () async {
-                  context.pushNamed('Login');
-                },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  child: custom_widgets.CountdownWidget(
-                    width: 100,
-                    height: 100,
-                    duration: 120,
-                    ringColor: FlutterFlowTheme.of(context).secondaryColor,
-                    fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                    backgroundColor:
-                        FlutterFlowTheme.of(context).secondaryColor,
-                    strokeWidth: 4.0,
-                    textColor: FlutterFlowTheme.of(context).secondaryText,
-                    textFormat: 's',
-                    isTimerTextShown: true,
-                    autoStart: true,
-                    timerPeriod: 30,
-                    activeTimerEvents: ['onTap', 'onComplete'].toList(),
-                    onComplete: () async {
-                      await welcomePageViewController?.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
                   ),
                 ),
               ),
