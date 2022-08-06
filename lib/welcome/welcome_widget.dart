@@ -103,9 +103,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        textFontSize: 32.0,
+                                        textFontSize: 24.0,
                                         autoStart: true,
-                                        label: ' 👉',
+                                        label: '→',
                                         timerPeriod: 30,
                                         activeTimerEvents: ['onTap'].toList(),
                                         onComplete: () async {
@@ -223,9 +223,9 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        textFontSize: 32.0,
+                                        textFontSize: 24.0,
                                         autoStart: true,
-                                        label: ' 👉',
+                                        label: '→',
                                         timerPeriod: 30,
                                         activeTimerEvents: ['onTap'].toList(),
                                         onComplete: () async {
@@ -343,7 +343,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        textFontSize: 32.0,
+                                        textFontSize: 24.0,
                                         autoStart: true,
                                         label: ' ✔',
                                         activeTimerEvents:
