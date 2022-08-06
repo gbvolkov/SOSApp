@@ -98,6 +98,12 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   Timer? _timer;
 
   @override
+  void deactivate() {
+    super.deactivate();
+    _timer?.cancel();
+  }
+
+  @override
   void initState() {
     super.initState();
     _controller = countdown.CountDownController();

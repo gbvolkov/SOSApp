@@ -91,7 +91,6 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
   'HelpChat': (data) async => HelpChatWidget(
         chat: getParameter(data, 'chat'),
       ),
-  'Test': (data) async => TestWidget(),
 };
 
 bool hasMatchingParameters(Map<String, dynamic> data, Set<String> params) =>

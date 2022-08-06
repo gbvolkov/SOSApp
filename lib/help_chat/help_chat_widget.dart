@@ -454,54 +454,56 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                 },
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
-                              child: InkWell(
-                                onTap: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: FlutterFlowExpandedImageView(
-                                        image: Image.network(
-                                          valueOrDefault<String>(
+                            if (stackChatsRecord.chatImage != null &&
+                                stackChatsRecord.chatImage != '')
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    30, 0, 30, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        child: FlutterFlowExpandedImageView(
+                                          image: Image.network(
+                                            valueOrDefault<String>(
+                                              stackChatsRecord.chatImage,
+                                              'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                            ),
+                                            fit: BoxFit.contain,
+                                          ),
+                                          allowRotation: false,
+                                          tag: valueOrDefault<String>(
                                             stackChatsRecord.chatImage,
                                             'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
                                           ),
-                                          fit: BoxFit.contain,
+                                          useHeroAnimation: true,
                                         ),
-                                        allowRotation: false,
-                                        tag: valueOrDefault<String>(
+                                      ),
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: valueOrDefault<String>(
+                                      stackChatsRecord.chatImage,
+                                      'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
+                                    ),
+                                    transitionOnUserGestures: true,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        valueOrDefault<String>(
                                           stackChatsRecord.chatImage,
                                           'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
                                         ),
-                                        useHeroAnimation: true,
+                                        width: double.infinity,
+                                        height: 100,
+                                        fit: BoxFit.contain,
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Hero(
-                                  tag: valueOrDefault<String>(
-                                    stackChatsRecord.chatImage,
-                                    'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
-                                  ),
-                                  transitionOnUserGestures: true,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.network(
-                                      valueOrDefault<String>(
-                                        stackChatsRecord.chatImage,
-                                        'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/1916128-untitled-1550822623.png?alt=media&token=de312d3c-854f-4f86-b045-6ea11612b96e',
-                                      ),
-                                      width: double.infinity,
-                                      height: 100,
-                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                         Padding(
@@ -707,76 +709,85 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                                             );
                                                           },
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(10,
-                                                                      5, 5, 5),
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              await Navigator
-                                                                  .push(
-                                                                context,
-                                                                PageTransition(
-                                                                  type:
-                                                                      PageTransitionType
-                                                                          .fade,
-                                                                  child:
-                                                                      FlutterFlowExpandedImageView(
-                                                                    image: Image
-                                                                        .network(
-                                                                      lvMessagesMessagesRecord
+                                                        if (lvMessagesMessagesRecord
+                                                                    .image !=
+                                                                null &&
+                                                            lvMessagesMessagesRecord
+                                                                    .image !=
+                                                                '')
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        10,
+                                                                        5,
+                                                                        5,
+                                                                        5),
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                await Navigator
+                                                                    .push(
+                                                                  context,
+                                                                  PageTransition(
+                                                                    type: PageTransitionType
+                                                                        .fade,
+                                                                    child:
+                                                                        FlutterFlowExpandedImageView(
+                                                                      image: Image
+                                                                          .network(
+                                                                        lvMessagesMessagesRecord
+                                                                            .image!,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      ),
+                                                                      allowRotation:
+                                                                          false,
+                                                                      tag: lvMessagesMessagesRecord
                                                                           .image!,
-                                                                      fit: BoxFit
-                                                                          .contain,
+                                                                      useHeroAnimation:
+                                                                          true,
                                                                     ),
-                                                                    allowRotation:
-                                                                        false,
-                                                                    tag: lvMessagesMessagesRecord
-                                                                        .image!,
-                                                                    useHeroAnimation:
-                                                                        true,
                                                                   ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Hero(
-                                                              tag:
-                                                                  lvMessagesMessagesRecord
-                                                                      .image!,
-                                                              transitionOnUserGestures:
-                                                                  true,
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          0),
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          0),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          24),
-                                                                ),
-                                                                child: Image
-                                                                    .network(
-                                                                  lvMessagesMessagesRecord
-                                                                      .image!,
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 100,
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                                );
+                                                              },
+                                                              child: Hero(
+                                                                tag:
+                                                                    lvMessagesMessagesRecord
+                                                                        .image!,
+                                                                transitionOnUserGestures:
+                                                                    true,
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            24),
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            0),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            0),
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            24),
+                                                                  ),
+                                                                  child: Image
+                                                                      .network(
+                                                                    lvMessagesMessagesRecord
+                                                                        .image!,
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height: 100,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
                                                       ],
                                                     ),
                                                   ),
@@ -863,59 +874,59 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                                                             20.0,
                                                                       ),
                                                                     ),
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional
-                                                                          .fromSTEB(
-                                                                              5,
-                                                                              0,
-                                                                              0,
-                                                                              5),
-                                                                      child:
-                                                                          InkWell(
-                                                                        onTap:
-                                                                            () async {
-                                                                          await Navigator
-                                                                              .push(
-                                                                            context,
-                                                                            PageTransition(
-                                                                              type: PageTransitionType.fade,
-                                                                              child: FlutterFlowExpandedImageView(
-                                                                                image: Image.network(
-                                                                                  lvMessagesMessagesRecord.image!,
-                                                                                  fit: BoxFit.contain,
-                                                                                ),
-                                                                                allowRotation: false,
-                                                                                tag: lvMessagesMessagesRecord.image!,
-                                                                                useHeroAnimation: true,
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        },
+                                                                    if (lvMessagesMessagesRecord.image !=
+                                                                            null &&
+                                                                        lvMessagesMessagesRecord.image !=
+                                                                            '')
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            5,
+                                                                            0,
+                                                                            0,
+                                                                            5),
                                                                         child:
-                                                                            Hero(
-                                                                          tag: lvMessagesMessagesRecord
-                                                                              .image!,
-                                                                          transitionOnUserGestures:
-                                                                              true,
+                                                                            InkWell(
+                                                                          onTap:
+                                                                              () async {
+                                                                            await Navigator.push(
+                                                                              context,
+                                                                              PageTransition(
+                                                                                type: PageTransitionType.fade,
+                                                                                child: FlutterFlowExpandedImageView(
+                                                                                  image: Image.network(
+                                                                                    lvMessagesMessagesRecord.image!,
+                                                                                    fit: BoxFit.contain,
+                                                                                  ),
+                                                                                  allowRotation: false,
+                                                                                  tag: lvMessagesMessagesRecord.image!,
+                                                                                  useHeroAnimation: true,
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
                                                                           child:
-                                                                              ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.only(
-                                                                              bottomLeft: Radius.circular(0),
-                                                                              bottomRight: Radius.circular(24),
-                                                                              topLeft: Radius.circular(24),
-                                                                              topRight: Radius.circular(0),
-                                                                            ),
+                                                                              Hero(
+                                                                            tag:
+                                                                                lvMessagesMessagesRecord.image!,
+                                                                            transitionOnUserGestures:
+                                                                                true,
                                                                             child:
-                                                                                Image.network(
-                                                                              lvMessagesMessagesRecord.image!,
-                                                                              width: double.infinity,
-                                                                              fit: BoxFit.cover,
+                                                                                ClipRRect(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                bottomLeft: Radius.circular(0),
+                                                                                bottomRight: Radius.circular(24),
+                                                                                topLeft: Radius.circular(24),
+                                                                                topRight: Radius.circular(0),
+                                                                              ),
+                                                                              child: Image.network(
+                                                                                lvMessagesMessagesRecord.image!,
+                                                                                width: double.infinity,
+                                                                                fit: BoxFit.cover,
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
                                                                   ],
                                                                 ),
                                                               ),
@@ -955,12 +966,14 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Image.network(
-                                    FFAppState().msgImg,
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.contain,
-                                  ),
+                                  if (FFAppState().msgImg != null &&
+                                      FFAppState().msgImg != '')
+                                    Image.network(
+                                      FFAppState().msgImg,
+                                      width: 40,
+                                      height: 40,
+                                      fit: BoxFit.contain,
+                                    ),
                                   Expanded(
                                     child: TextFormField(
                                       controller: txtMessageController,
