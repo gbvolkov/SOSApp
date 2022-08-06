@@ -1,4 +1,6 @@
 // Automatic FlutterFlow imports
+import 'dart:async';
+
 import '../../backend/backend.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
@@ -29,6 +31,7 @@ class CountdownWidget extends StatefulWidget {
     this.autoStart,
     this.label,
     this.bgColorInt,
+    this.timerPeriod,
     this.activeTimerEvents,
     required this.onComplete,
   }) : super(key: key);
@@ -50,6 +53,7 @@ class CountdownWidget extends StatefulWidget {
   final bool? autoStart;
   final String? label;
   final int? bgColorInt;
+  final int? timerPeriod;
   final List<String>? activeTimerEvents;
   final Future<dynamic> Function() onComplete;
 
@@ -91,7 +95,8 @@ _defaultFormat(Duration duration) {
 
 class _CountdownWidgetState extends State<CountdownWidget> {
   countdown.CountDownController? _controller;
-  bool isStarted = false;
+  late bool isStarted;
+  late Timer _timer;
 
   @override
   void initState() {
@@ -139,7 +144,21 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 autoStart: widget.autoStart ?? true,
                 controller: _controller,
                 // This Callback will execute when the Countdown Ends.
+                onStart: () async {
+                  if ((widget.timerPeriod ?? 0) != 0) {
+                    _timer =
+                        Timer.periodic(Duration(seconds: widget.timerPeriod!),
+                            (Timer timer) async {
+                      if (widget.activeTimerEvents?.contains('onComplete') ??
+                          true) {
+                        await widget.onComplete();
+                      }
+                    });
+                  }
+                },
+                //onChange: (String ts) async {},
                 onComplete: () async {
+                  _timer.cancel();
                   String? tsString = _controller?.getTime();
                   String? zeroTime = _getTime(
                       (widget.isReverse ?? false)
