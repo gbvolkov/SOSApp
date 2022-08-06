@@ -103,6 +103,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
+                                        textFontSize: 32.0,
                                         autoStart: true,
                                         label: ' 👉',
                                         timerPeriod: 30,
@@ -222,6 +223,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
+                                        textFontSize: 32.0,
                                         autoStart: true,
                                         label: ' 👉',
                                         timerPeriod: 30,
@@ -341,6 +343,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                                         strokeWidth: 4.0,
                                         textColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
+                                        textFontSize: 32.0,
                                         autoStart: true,
                                         label: ' ✔',
                                         activeTimerEvents:
