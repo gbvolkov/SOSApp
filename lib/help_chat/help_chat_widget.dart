@@ -1178,8 +1178,7 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                               isReverseAnimation: true,
                               isTimerTextShown: true,
                               autoStart: true,
-                              activeTimerEvents:
-                                  ['onTap', 'onComplete'].toList(),
+                              activeTimerEvents: ['onComplete'].toList(),
                               bgColorInt: functions.getMoodColor(
                                   stackChatsRecord.chatMoodIdx!,
                                   FFAppState().sliderColors.toList()),
