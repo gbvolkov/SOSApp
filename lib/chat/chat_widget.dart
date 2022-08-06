@@ -1267,7 +1267,9 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                 width: 60,
                                 height: 60,
                                 duration: FFAppState().chatMaxDuration,
-                                initialDuration: 0,
+                                initialDuration: functions.timeDiff(
+                                    columnChatsRecord.startedAt!,
+                                    getCurrentTimestamp),
                                 ringColor:
                                     FlutterFlowTheme.of(context).secondaryColor,
                                 fillColor: FlutterFlowTheme.of(context)
