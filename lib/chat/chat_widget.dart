@@ -1,7 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
-import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_expanded_image_view.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -22,39 +21,15 @@ class ChatWidget extends StatefulWidget {
   _ChatWidgetState createState() => _ChatWidgetState();
 }
 
-class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
+class _ChatWidgetState extends State<ChatWidget> {
   MessagesRecord? lastMessage;
   String uploadedFileUrl = '';
   TextEditingController? txtMessageController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final animationsMap = {
-    'containerOnActionTriggerAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onActionTrigger,
-      duration: 600,
-      hideBeforeAnimating: true,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(0, 100),
-        scale: 1,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
-  };
 
   @override
   void initState() {
     super.initState();
-    setupTriggerAnimations(
-      animationsMap.values
-          .where((anim) => anim.trigger == AnimationTrigger.onActionTrigger),
-      this,
-    );
-
     txtMessageController = TextEditingController();
   }
 
@@ -581,7 +556,7 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                               children: [
                                                 if (lvMessagesMessagesRecord
                                                         .sender !=
-                                                    currentUserReference)
+                                                    columnChatsRecord.initiator)
                                                   Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
@@ -813,14 +788,11 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                                             ),
                                                         ],
                                                       ),
-                                                    ).animated([
-                                                      animationsMap[
-                                                          'containerOnActionTriggerAnimation']!
-                                                    ]),
+                                                    ),
                                                   ),
                                                 if (lvMessagesMessagesRecord
                                                         .sender ==
-                                                    currentUserReference)
+                                                    columnChatsRecord.initiator)
                                                   Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
