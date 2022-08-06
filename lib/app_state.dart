@@ -45,6 +45,8 @@ class FFAppState {
     _invitationLink = _value;
     prefs.setString('ff_invitationLink', _value);
   }
+
+  int chatMaxDuration = 300;
 }
 
 LatLng? _latLngFromString(String? val) {

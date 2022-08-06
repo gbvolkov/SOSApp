@@ -368,27 +368,26 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                   moodColors: FFAppState().sliderColors.toList(),
                 ),
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(2, 0, 0, 0),
-                child: AuthUserStreamWidget(
-                  child: StreamBuilder<ChatsRecord>(
-                    stream:
-                        ChatsRecord.getDocument(currentUserDocument!.lastChat!),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(
-                              color: FlutterFlowTheme.of(context).primaryColor,
-                            ),
+              AuthUserStreamWidget(
+                child: StreamBuilder<ChatsRecord>(
+                  stream:
+                      ChatsRecord.getDocument(currentUserDocument!.lastChat!),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
-                        );
-                      }
-                      final columnChatsRecord = snapshot.data!;
-                      return Column(
+                        ),
+                      );
+                    }
+                    final columnChatsRecord = snapshot.data!;
+                    return SingleChildScrollView(
+                      child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Column(
@@ -982,39 +981,34 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 10, 0),
-                                  child: Container(
+                                Container(
+                                  width: 40,
+                                  height: 280,
+                                  child: custom_widgets.MoodSelectorWidget(
                                     width: 40,
                                     height: 280,
-                                    child: custom_widgets.MoodSelectorWidget(
-                                      width: 40,
-                                      height: 280,
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      iconSize: 24.0,
-                                      gradientColors:
-                                          FFAppState().sliderColors.toList(),
-                                      gradientStops: FFAppState()
-                                          .sliderGradientStops
-                                          .toList(),
-                                      sliderStops:
-                                          FFAppState().sliderStops.toList(),
-                                      index: FFAppState().sliderValue,
-                                      onSelect: () async {
-                                        setState(() =>
-                                            FFAppState().sliderValue =
-                                                FFAppState().sliderValue + 0);
+                                    iconColor: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    iconSize: 24.0,
+                                    gradientColors:
+                                        FFAppState().sliderColors.toList(),
+                                    gradientStops: FFAppState()
+                                        .sliderGradientStops
+                                        .toList(),
+                                    sliderStops:
+                                        FFAppState().sliderStops.toList(),
+                                    index: FFAppState().sliderValue,
+                                    onSelect: () async {
+                                      setState(() => FFAppState().sliderValue =
+                                          FFAppState().sliderValue + 0);
 
-                                        final chatsUpdateData =
-                                            createChatsRecordData(
-                                          chatMoodIdx: FFAppState().sliderValue,
-                                        );
-                                        await currentUserDocument!.lastChat!
-                                            .update(chatsUpdateData);
-                                      },
-                                    ),
+                                      final chatsUpdateData =
+                                          createChatsRecordData(
+                                        chatMoodIdx: FFAppState().sliderValue,
+                                      );
+                                      await currentUserDocument!.lastChat!
+                                          .update(chatsUpdateData);
+                                    },
                                   ),
                                 ),
                               ],
@@ -1253,7 +1247,7 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                               child: custom_widgets.CountdownWidget(
                                 width: 60,
                                 height: 60,
-                                duration: 300,
+                                duration: FFAppState().chatMaxDuration,
                                 initialDuration: 0,
                                 ringColor:
                                     FlutterFlowTheme.of(context).secondaryColor,
@@ -1312,9 +1306,9 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                             ),
                           ),
                         ],
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

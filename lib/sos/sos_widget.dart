@@ -242,7 +242,6 @@ class _SosWidgetState extends State<SosWidget> {
                               triggerPushNotification(
                                 notificationTitle: 'S.O.S.',
                                 notificationText: txtSOSMessageController!.text,
-                                notificationImageUrl: uploadedFileUrl,
                                 notificationSound: 'default',
                                 userRefs: (currentUserDocument?.groupMembers
                                             ?.toList() ??

@@ -21,3 +21,11 @@ int getMoodColor(
           : moodIdx;
   return moodColors[moodIdx];
 }
+
+int timeDiff(
+  DateTime startTime,
+  DateTime endTime,
+) {
+  // Add your function code here!
+  return DateTimeRange(start: startTime, end: endTime).duration.inSeconds;
+}
