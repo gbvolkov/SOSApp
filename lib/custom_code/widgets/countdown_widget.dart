@@ -8,6 +8,7 @@ import 'index.dart'; // Imports other custom widgets
 import '../../flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom widget code
+import 'dart:async';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart'
     as countdown;
 
