@@ -95,13 +95,14 @@ _defaultFormat(Duration duration) {
 class _CountdownWidgetState extends State<CountdownWidget> {
   countdown.CountDownController? _controller;
   late bool isStarted;
-  late Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _controller = countdown.CountDownController();
     isStarted = false;
+    _timer = null;
   }
 
   @override
@@ -148,16 +149,13 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                     _timer =
                         Timer.periodic(Duration(seconds: widget.timerPeriod!),
                             (Timer timer) async {
-                      if (widget.activeTimerEvents?.contains('onComplete') ??
-                          true) {
-                        await widget.onComplete();
-                      }
+                      await widget.onComplete();
                     });
                   }
                 },
                 //onChange: (String ts) async {},
                 onComplete: () async {
-                  _timer.cancel();
+                  _timer?.cancel();
                   String? tsString = _controller?.getTime();
                   String? zeroTime = _getTime(
                       (widget.isReverse ?? false)
