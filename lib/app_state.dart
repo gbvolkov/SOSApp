@@ -47,6 +47,8 @@ class FFAppState {
   }
 
   int chatMaxDuration = 300;
+
+  String msgImg = '';
 }
 
 LatLng? _latLngFromString(String? val) {

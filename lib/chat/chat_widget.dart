@@ -1050,6 +1050,12 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                     return Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
+                                        Image.network(
+                                          FFAppState().msgImg,
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                        ),
                                         Expanded(
                                           child: TextFormField(
                                             controller: txtMessageController,
@@ -1092,13 +1098,13 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                         ),
                                         FlutterFlowIconButton(
                                           borderColor: Colors.transparent,
-                                          borderRadius: 30,
+                                          borderRadius: 20,
                                           borderWidth: 1,
-                                          buttonSize: 60,
+                                          buttonSize: 40,
                                           icon: Icon(
                                             Icons.camera_alt_outlined,
                                             color: Color(0x80000000),
-                                            size: 30,
+                                            size: 20,
                                           ),
                                           onPressed: () async {
                                             final selectedMedia =
@@ -1153,17 +1159,20 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                                 return;
                                               }
                                             }
+
+                                            setState(() => FFAppState().msgImg =
+                                                uploadedFileUrl);
                                           },
                                         ),
                                         FlutterFlowIconButton(
                                           borderColor: Colors.transparent,
-                                          borderRadius: 30,
+                                          borderRadius: 20,
                                           borderWidth: 1,
-                                          buttonSize: 60,
+                                          buttonSize: 40,
                                           icon: Icon(
                                             Icons.send_outlined,
                                             color: Color(0x80000000),
-                                            size: 30,
+                                            size: 20,
                                           ),
                                           onPressed: () async {
                                             if (rowChatsRecord.status == 0) {
@@ -1176,7 +1185,7 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                                   moodIdx:
                                                       FFAppState().sliderValue,
                                                   sender: currentUserReference,
-                                                  image: uploadedFileUrl,
+                                                  image: FFAppState().msgImg,
                                                   chat: currentUserDocument!
                                                       .lastChat,
                                                 ),
@@ -1198,6 +1207,8 @@ class _ChatWidgetState extends State<ChatWidget> with TickerProviderStateMixin {
                                               setState(() {
                                                 txtMessageController?.clear();
                                               });
+                                              setState(() =>
+                                                  FFAppState().msgImg = '');
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
