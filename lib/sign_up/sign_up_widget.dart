@@ -32,6 +32,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       setState(() => FFAppState().agreeCheck = false);
     });
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'SignUp'});
     emailAddressController = TextEditingController();
     nameController = TextEditingController();
     passwordController = TextEditingController();

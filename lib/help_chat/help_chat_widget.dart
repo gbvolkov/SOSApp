@@ -35,6 +35,7 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
   @override
   void initState() {
     super.initState();
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'HelpChat'});
     txtMessageController = TextEditingController();
   }
 

@@ -25,6 +25,13 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'AcceptInvitation'});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<UsersRecord>>(
       stream: queryUsersRecord(

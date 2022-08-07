@@ -30,6 +30,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   void initState() {
     super.initState();
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Chat'});
     txtMessageController = TextEditingController();
   }
 

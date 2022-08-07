@@ -28,6 +28,7 @@ class _SosWidgetState extends State<SosWidget> {
   @override
   void initState() {
     super.initState();
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'SOS'});
     txtSOSMessageController = TextEditingController(text: 'S.O.S.');
   }
 
