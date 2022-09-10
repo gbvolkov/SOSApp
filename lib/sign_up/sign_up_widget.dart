@@ -17,11 +17,17 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   TextEditingController? emailAddressController;
+
   TextEditingController? nameController;
+
   TextEditingController? passwordController;
+
   late bool passwordVisibility;
+
   TextEditingController? passwordConfirmController;
+
   late bool passwordConfirmVisibility;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -39,6 +45,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     passwordVisibility = false;
     passwordConfirmController = TextEditingController();
     passwordConfirmVisibility = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -121,6 +128,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 contentPadding:
                                     EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               ),
@@ -178,6 +199,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 contentPadding:
                                     EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                               ),
@@ -227,6 +262,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
                                     width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(40),
@@ -289,6 +338,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               borderSide: BorderSide(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(40),

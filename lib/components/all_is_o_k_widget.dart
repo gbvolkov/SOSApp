@@ -14,6 +14,13 @@ class AllIsOKWidget extends StatefulWidget {
 
 class _AllIsOKWidgetState extends State<AllIsOKWidget> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,

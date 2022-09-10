@@ -20,9 +20,10 @@ class SosWidget extends StatefulWidget {
 }
 
 class _SosWidgetState extends State<SosWidget> {
-  ChatsRecord? lastChat;
-  String uploadedFileUrl = '';
   TextEditingController? txtSOSMessageController;
+
+  String uploadedFileUrl = '';
+  ChatsRecord? lastChat;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -30,6 +31,7 @@ class _SosWidgetState extends State<SosWidget> {
     super.initState();
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'SOS'});
     txtSOSMessageController = TextEditingController(text: 'S.O.S.');
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -260,6 +262,7 @@ class _SosWidgetState extends State<SosWidget> {
                               setState(() {
                                 txtSOSMessageController?.clear();
                               });
+
                               context.pushNamed('Chat');
                             },
                           ),
@@ -301,6 +304,20 @@ class _SosWidgetState extends State<SosWidget> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      errorBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedErrorBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Color(0x00000000),
                                           width: 1,

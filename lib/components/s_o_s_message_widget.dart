@@ -14,13 +14,15 @@ class SOSMessageWidget extends StatefulWidget {
 }
 
 class _SOSMessageWidgetState extends State<SOSMessageWidget> {
-  String uploadedFileUrl = '';
   TextEditingController? textController;
+
+  String uploadedFileUrl = '';
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController(text: 'S.O.S.');
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -56,6 +58,20 @@ class _SOSMessageWidgetState extends State<SOSMessageWidget> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0x00000000),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  errorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0x00000000),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedErrorBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Color(0x00000000),
                       width: 1,

@@ -18,12 +18,18 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
-  String uploadedFileUrl = '';
-  TextEditingController? yourNameController;
-  TextEditingController? phoneController;
   TextEditingController? emailAddressController;
+
+  TextEditingController? phoneController;
+
+  TextEditingController? yourNameController;
+
+  String uploadedFileUrl = '';
+
   TextEditingController? passwordController;
+
   late bool passwordVisibility;
+
   bool? switchListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,6 +42,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     passwordController = TextEditingController();
     passwordVisibility = false;
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Profile'});
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -201,6 +208,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       contentPadding:
                           EdgeInsetsDirectional.fromSTEB(20, 0, 0, 24),
                     ),
@@ -230,6 +251,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         borderSide: BorderSide(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -265,6 +300,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedErrorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     contentPadding:
                         EdgeInsetsDirectional.fromSTEB(20, 0, 0, 24),
                   ),
@@ -291,6 +340,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedErrorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x00000000),
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -411,6 +474,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         onPressed: () async {
                           GoRouter.of(context).prepareAuthEvent();
                           await signOut();
+
                           context.pushNamedAuth('Login', mounted);
                         },
                       ),
@@ -440,6 +504,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         isNotiffAccepted: switchListTileValue,
                       );
                       await currentUserReference!.update(usersUpdateData);
+
                       context.pushNamed('Home');
                     },
                     text: 'Save Changes',

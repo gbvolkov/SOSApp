@@ -72,7 +72,7 @@ void addMemberStructData(
     return;
   }
   if (!forFieldValue && member.firestoreUtilData.clearUnsetFields) {
-    firestoreData[fieldName] = {};
+    firestoreData[fieldName] = <String, dynamic>{};
   }
   final memberData = getMemberFirestoreData(member, forFieldValue);
   final nestedData = memberData.map((k, v) => MapEntry('$fieldName.$k', v));

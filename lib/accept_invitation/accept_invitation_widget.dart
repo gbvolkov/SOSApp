@@ -29,6 +29,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
     super.initState();
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'AcceptInvitation'});
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -58,7 +59,9 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
           return Container();
         }
         final acceptInvitationUsersRecord =
-            acceptInvitationUsersRecordList.first;
+            acceptInvitationUsersRecordList.isNotEmpty
+                ? acceptInvitationUsersRecordList.first
+                : null;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -79,7 +82,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                   ),
                   child: Image.network(
                     valueOrDefault<String>(
-                      acceptInvitationUsersRecord.photoUrl,
+                      acceptInvitationUsersRecord!.photoUrl,
                       'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
                     ),
                   ),
@@ -89,12 +92,12 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                   children: [
                     if (widget.hostUID != currentUserUid)
                       Text(
-                        '${acceptInvitationUsersRecord.displayName} invites to join!',
+                        '${acceptInvitationUsersRecord!.displayName} invites to join!',
                         style: FlutterFlowTheme.of(context).title2,
                       ),
                     if (widget.hostUID == currentUserUid)
                       Text(
-                        '${acceptInvitationUsersRecord.displayName}, ask friends for help.',
+                        '${acceptInvitationUsersRecord!.displayName}, ask friends for help.',
                         style: FlutterFlowTheme.of(context).title2,
                       ),
                   ],
@@ -125,7 +128,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                         ),
                         child: Image.network(
                           valueOrDefault<String>(
-                            acceptInvitationUsersRecord.photoUrl,
+                            acceptInvitationUsersRecord!.photoUrl,
                             'https://firebasestorage.googleapis.com/v0/b/sosapp-8fe3c.appspot.com/o/toonified.jpg?alt=media&token=afd96af7-96a9-4200-9c79-4bc73fe496ae',
                           ),
                         ),
@@ -135,7 +138,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                     child: Text(
-                      acceptInvitationUsersRecord.displayName!,
+                      acceptInvitationUsersRecord!.displayName!,
                       style: FlutterFlowTheme.of(context).title3,
                     ),
                   ),
@@ -176,7 +179,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                                 'groupMembers': FieldValue.arrayUnion(
                                     [currentUserReference]),
                               };
-                              await acceptInvitationUsersRecord.reference
+                              await acceptInvitationUsersRecord!.reference
                                   .update(usersUpdateData);
                               await showDialog(
                                 context: context,
@@ -233,6 +236,7 @@ class _AcceptInvitationWidgetState extends State<AcceptInvitationWidget> {
                                   );
                                 },
                               );
+
                               context.pushNamed('Home');
                             },
                           ),

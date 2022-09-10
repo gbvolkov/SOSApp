@@ -15,6 +15,7 @@ class ForgotPasswordWidget extends StatefulWidget {
 
 class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   TextEditingController? emailAddressController;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -23,6 +24,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
     emailAddressController = TextEditingController();
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'ForgotPassword'});
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -152,6 +154,20 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 0,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 0,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
                                   width: 0,

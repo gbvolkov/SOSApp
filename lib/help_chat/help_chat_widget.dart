@@ -27,9 +27,10 @@ class HelpChatWidget extends StatefulWidget {
 }
 
 class _HelpChatWidgetState extends State<HelpChatWidget> {
-  MessagesRecord? lastMessage;
-  String uploadedFileUrl = '';
   TextEditingController? txtMessageController;
+
+  String uploadedFileUrl = '';
+  MessagesRecord? lastMessage;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,6 +38,7 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
     super.initState();
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'HelpChat'});
     txtMessageController = TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -1023,6 +1025,23 @@ class _HelpChatWidgetState extends State<HelpChatWidget> {
                                               BorderRadius.circular(8),
                                         ),
                                         focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        errorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedErrorBorder:
+                                            UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
                                             width: 1,

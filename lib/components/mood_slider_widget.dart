@@ -26,6 +26,13 @@ class MoodSliderWidget extends StatefulWidget {
 
 class _MoodSliderWidgetState extends State<MoodSliderWidget> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Align(
       alignment: AlignmentDirectional(0, 0),
